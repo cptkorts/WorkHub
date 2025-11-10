@@ -49,7 +49,7 @@ export default function SignupPage() {
           password: formData.password,
           redirect: false,
         });
-        router.push("/dashboard");
+        router.push("/analytics");
       } else if (result.errors) {
         setErrors(result.errors);
       }
@@ -61,21 +61,21 @@ export default function SignupPage() {
   };
 
   const handleGoogleSignUp = () => {
-    signIn("google", { callbackUrl: "/dashboard" });
+    signIn("google", { callbackUrl: "/analytics" });
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen flex items-center justify-center bg-background py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
         <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+          <h2 className="mt-6 text-center text-3xl font-semibold text-text-default">
             Create your WorkHub account
           </h2>
-          <p className="mt-2 text-center text-sm text-gray-600">
+          <p className="mt-2 text-center text-sm text-text-muted">
             Or{" "}
             <Link
               href="/login"
-              className="font-medium text-blue-600 hover:text-blue-500"
+              className="font-medium text-default hover:text-light transition-colors"
             >
               sign in to your existing account
             </Link>
@@ -89,35 +89,35 @@ export default function SignupPage() {
             </div>
           )}
 
-          <div className="rounded-md shadow-sm space-y-4">
+          <div className="rounded-md space-y-4">
             <div>
               <label
                 htmlFor="name"
-                className="block text-sm font-medium text-gray-700"
+                className="block text-sm font-semibold text-default"
               >
-                Full Name *
+                Full Name
               </label>
               <input
                 id="name"
                 name="name"
                 type="text"
                 required
-                className="mt-1 appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                placeholder="John Doe"
+                className="mt-1 appearance-none relative block w-full px-3 py-2 border border-border placeholder-text-muted text-accent rounded-md focus:outline-none focus:ring-accent focus:border-accent sm:text-sm"
+                placeholder="Theo Kortsos"
                 value={formData.name}
                 onChange={handleChange}
               />
               {errors.name && (
-                <p className="mt-1 text-sm text-red-600">{errors.name}</p>
+                <p className="mt-1 text-sm text-error">{errors.name}</p>
               )}
             </div>
 
             <div>
               <label
                 htmlFor="email"
-                className="block text-sm font-medium text-gray-700"
+                className="block text-sm font-semibold text-default"
               >
-                Email Address *
+                Email Address
               </label>
               <input
                 id="email"
@@ -125,22 +125,22 @@ export default function SignupPage() {
                 type="email"
                 autoComplete="email"
                 required
-                className="mt-1 appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                className="mt-1 appearance-none relative block w-full px-3 py-2 border border-border placeholder-text-muted text-accent rounded-md focus:outline-none focus:ring-accent focus:border-accent sm:text-sm"
                 placeholder="you@example.com"
                 value={formData.email}
                 onChange={handleChange}
               />
               {errors.email && (
-                <p className="mt-1 text-sm text-red-600">{errors.email}</p>
+                <p className="mt-1 text-sm text-error">{errors.email}</p>
               )}
             </div>
 
             <div>
               <label
                 htmlFor="password"
-                className="block text-sm font-medium text-gray-700"
+                className="block text-sm font-semibold text-default"
               >
-                Password *
+                Password
               </label>
               <input
                 id="password"
@@ -148,20 +148,20 @@ export default function SignupPage() {
                 type="password"
                 autoComplete="new-password"
                 required
-                className="mt-1 appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                className="mt-1 appearance-none relative block w-full px-3 py-2 border border-border placeholder-text-muted text-accent rounded-md focus:outline-none focus:ring-accent focus:border-accent sm:text-sm"
                 placeholder="At least 8 characters"
                 value={formData.password}
                 onChange={handleChange}
               />
               {errors.password && (
-                <p className="mt-1 text-sm text-red-600">{errors.password}</p>
+                <p className="mt-1 text-sm text-error">{errors.password}</p>
               )}
             </div>
 
             <div>
               <label
                 htmlFor="businessName"
-                className="block text-sm font-medium text-gray-700"
+                className="block text-sm font-semibold text-default"
               >
                 Business Name (Optional)
               </label>
@@ -169,7 +169,7 @@ export default function SignupPage() {
                 id="businessName"
                 name="businessName"
                 type="text"
-                className="mt-1 appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                className="mt-1 appearance-none relative block w-full px-3 py-2 border border-border placeholder-text-muted text-accent rounded-md focus:outline-none focus:ring-accent focus:border-accent sm:text-sm"
                 placeholder="Your Business Name"
                 value={formData.businessName}
                 onChange={handleChange}
@@ -181,7 +181,7 @@ export default function SignupPage() {
             <button
               type="submit"
               disabled={loading}
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-base rounded-md text-background bg-default hover:bg-hover focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent cursor-pointer transition-colors  disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading ? "Creating account..." : "Sign up"}
             </button>
@@ -189,10 +189,10 @@ export default function SignupPage() {
 
           <div className="relative">
             <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-300" />
+              <div className="w-full border-t border-border" />
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-gray-50 text-gray-500">
+              <span className="px-2 bg-background text-text-muted">
                 Or continue with
               </span>
             </div>
@@ -202,7 +202,7 @@ export default function SignupPage() {
             <button
               type="button"
               onClick={handleGoogleSignUp}
-              className="w-full flex items-center justify-center gap-3 py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              className="w-full flex items-center justify-center gap-3 py-2 px-4 border border-border rounded-md shadow-sm bg-white text-sm font-medium text-default hover:bg-muted transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent"
             >
               <svg className="w-5 h-5" viewBox="0 0 24 24">
                 <path

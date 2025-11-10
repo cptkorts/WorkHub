@@ -1,18 +1,55 @@
 "use client";
 
-import { useSession, signOut } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import Navbar from "@/components/Navbar";
+
+interface AnalyticsData {
+  totalClients: number;
+  upcomingAppointments: number;
+  totalRevenue: number;
+}
 
 export default function DashboardPage() {
   const { data: session, status } = useSession();
   const router = useRouter();
+  const [analytics, setAnalytics] = useState<AnalyticsData>({
+    totalClients: 0,
+    upcomingAppointments: 0,
+    totalRevenue: 0,
+  });
+  const [loadingStats, setLoadingStats] = useState(true);
 
   useEffect(() => {
     if (status === "unauthenticated") {
       router.push("/login");
     }
   }, [status, router]);
+
+  useEffect(() => {
+    if (session) {
+      fetchAnalytics();
+    }
+  }, [session]);
+
+  const fetchAnalytics = async () => {
+    try {
+      const response = await fetch("/api/analytics");
+      if (response.ok) {
+        const data = await response.json();
+        setAnalytics({
+          totalClients: data.totalClients,
+          upcomingAppointments: data.upcomingAppointments,
+          totalRevenue: data.totalRevenue,
+        });
+      }
+    } catch (error) {
+      console.error("Error fetching analytics:", error);
+    } finally {
+      setLoadingStats(false);
+    }
+  };
 
   if (status === "loading") {
     return (
@@ -30,30 +67,12 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <nav className="bg-white shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between h-16">
-            <div className="flex items-center">
-              <h1 className="text-2xl font-bold text-gray-900">WorkHub</h1>
-            </div>
-            <div className="flex items-center gap-4">
-              <span className="text-gray-700">{session.user.name}</span>
-              <button
-                onClick={() => signOut({ callbackUrl: "/" })}
-                className="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition-colors"
-              >
-                Sign Out
-              </button>
-            </div>
-          </div>
-        </div>
-      </nav>
+    <div className="min-h-screen bg-gray-50 flex">
+      <Navbar />
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-        <div className="px-4 py-6 sm:px-0">
+      <main className="flex-1 ml-64 py-6 px-8">
+        <div>
           <div className="bg-white rounded-lg shadow-md p-6 mb-6">
             <h2 className="text-2xl font-bold text-gray-900 mb-4">
               Welcome to your dashboard, {session.user.name}! 🎉
@@ -84,7 +103,13 @@ export default function DashboardPage() {
                 <div className="text-4xl mr-4">📇</div>
                 <div>
                   <p className="text-gray-500 text-sm">Total Clients</p>
-                  <p className="text-3xl font-bold text-gray-900">0</p>
+                  {loadingStats ? (
+                    <div className="h-9 w-12 bg-gray-200 animate-pulse rounded"></div>
+                  ) : (
+                    <p className="text-3xl font-bold text-gray-900">
+                      {analytics.totalClients}
+                    </p>
+                  )}
                 </div>
               </div>
             </div>
@@ -92,8 +117,14 @@ export default function DashboardPage() {
               <div className="flex items-center">
                 <div className="text-4xl mr-4">📅</div>
                 <div>
-                  <p className="text-gray-500 text-sm">Appointments</p>
-                  <p className="text-3xl font-bold text-gray-900">0</p>
+                  <p className="text-gray-500 text-sm">Upcoming Appointments</p>
+                  {loadingStats ? (
+                    <div className="h-9 w-12 bg-gray-200 animate-pulse rounded"></div>
+                  ) : (
+                    <p className="text-3xl font-bold text-gray-900">
+                      {analytics.upcomingAppointments}
+                    </p>
+                  )}
                 </div>
               </div>
             </div>
@@ -102,14 +133,20 @@ export default function DashboardPage() {
                 <div className="text-4xl mr-4">💰</div>
                 <div>
                   <p className="text-gray-500 text-sm">Total Revenue</p>
-                  <p className="text-3xl font-bold text-gray-900">$0</p>
+                  {loadingStats ? (
+                    <div className="h-9 w-20 bg-gray-200 animate-pulse rounded"></div>
+                  ) : (
+                    <p className="text-3xl font-bold text-gray-900">
+                      ${analytics.totalRevenue.toFixed(2)}
+                    </p>
+                  )}
                 </div>
               </div>
             </div>
           </div>
 
           {/* Action Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             <a
               href="/clients"
               className="bg-blue-50 border-2 border-blue-200 p-6 rounded-lg hover:bg-blue-100 transition-colors"
@@ -141,6 +178,16 @@ export default function DashboardPage() {
                 Invoices
               </h3>
               <p className="text-gray-600">Create and manage invoices</p>
+            </a>
+            <a
+              href="/analytics"
+              className="bg-orange-50 border-2 border-orange-200 p-6 rounded-lg hover:bg-orange-100 transition-colors"
+            >
+              <div className="text-4xl mb-2">📊</div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                Analytics
+              </h3>
+              <p className="text-gray-600">View insights and reports</p>
             </a>
           </div>
 

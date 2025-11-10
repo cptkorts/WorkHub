@@ -27,7 +27,7 @@ export default function LoginPage() {
       if (result?.error) {
         setError(result.error);
       } else {
-        router.push("/dashboard");
+        router.push("/analytics");
         router.refresh();
       }
     } catch {
@@ -38,21 +38,21 @@ export default function LoginPage() {
   };
 
   const handleGoogleSignIn = () => {
-    signIn("google", { callbackUrl: "/dashboard" });
+    signIn("google", { callbackUrl: "/analytics" });
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen flex items-center justify-center bg-background py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
         <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+          <h2 className="mt-6 text-center text-3xl font-semibold text-text-default">
             Sign in to WorkHub
           </h2>
-          <p className="mt-2 text-center text-sm text-gray-600">
+          <p className="mt-2 text-center text-sm text-text-muted">
             Or{" "}
             <Link
               href="/signup"
-              className="font-medium text-blue-600 hover:text-blue-500"
+              className="font-medium text-default hover:text-light transition-colors"
             >
               create a new account
             </Link>
@@ -66,10 +66,13 @@ export default function LoginPage() {
             </div>
           )}
 
-          <div className="rounded-md shadow-sm -space-y-px">
+          <div className="rounded-md space-y-4">
             <div>
-              <label htmlFor="email" className="sr-only">
-                Email address
+              <label
+                htmlFor="email"
+                className="block text-sm font-semibold text-default"
+              >
+                Email Address
               </label>
               <input
                 id="email"
@@ -77,14 +80,17 @@ export default function LoginPage() {
                 type="email"
                 autoComplete="email"
                 required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
-                placeholder="Email address"
+                className="mt-1 appearance-none relative block w-full px-3 py-2 border border-border placeholder-text-muted text-accent rounded-md focus:outline-none focus:ring-accent focus:border-accent sm:text-sm"
+                placeholder="Your email address"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
             </div>
             <div>
-              <label htmlFor="password" className="sr-only">
+              <label
+                htmlFor="password"
+                className="block text-sm font-semibold text-default"
+              >
                 Password
               </label>
               <input
@@ -93,8 +99,8 @@ export default function LoginPage() {
                 type="password"
                 autoComplete="current-password"
                 required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
-                placeholder="Password"
+                className="mt-1 appearance-none relative block w-full px-3 py-2 border border-border placeholder-text-muted text-accent rounded-md focus:outline-none focus:ring-accent focus:border-accent sm:text-sm"
+                placeholder="Your password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
@@ -105,7 +111,7 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-base rounded-md text-background bg-default hover:bg-hover focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent cursor-pointer transition-colors  disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading ? "Signing in..." : "Sign in"}
             </button>
@@ -113,10 +119,10 @@ export default function LoginPage() {
 
           <div className="relative">
             <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-300" />
+              <div className="w-full border-t border-border" />
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-gray-50 text-gray-500">
+              <span className="px-2 bg-background text-text-muted">
                 Or continue with
               </span>
             </div>
@@ -126,7 +132,7 @@ export default function LoginPage() {
             <button
               type="button"
               onClick={handleGoogleSignIn}
-              className="w-full flex items-center justify-center gap-3 py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              className="w-full flex items-center justify-center gap-3 py-2 px-4 border border-border rounded-md shadow-sm bg-white text-sm font-medium text-default hover:bg-muted transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent"
             >
               <svg className="w-5 h-5" viewBox="0 0 24 24">
                 <path

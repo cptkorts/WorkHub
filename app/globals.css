@@ -1,1 +1,54 @@
 @import "tailwindcss";
+
+/* React Calendar custom styles */
+.react-calendar {
+  width: 100% !important;
+  border: none !important;
+  font-family: inherit;
+}
+
+.react-calendar__tile {
+  padding: 1em 0.5em !important;
+  position: relative;
+}
+
+.react-calendar__tile--active {
+  background: #7ea66d !important;
+  color: white !important;
+}
+
+.react-calendar__tile--now {
+  background: #e5ead4 !important;
+}
+
+.react-calendar__tile:enabled:hover {
+  background-color: #f5eedc !important;
+}
+
+@theme {
+  --color-default: #6b8e23;
+  --color-hover: #5a7a1c;
+  --color-light: #a2c153;
+  --color-muted: #e5ead4;
+  --color-accent: #cdaa5f;
+  --color-accent-light: #f5eedc;
+  --color-success: #7ea66d;
+  --color-warning: #e5b35a;
+  --color-error: #c8553d;
+  --color-background: #f9faf7;
+  --color-surface: #ffffff;
+  --color-border: #e3e5dd;
+  --color-text-default: #1c1c1a;
+  --color-text-muted: #76786e;
+  --color-dark-1: #1b1c17;
+  --color-dark-2: #26271f;
+  --color-light-1: #f4f4f2;
+  --color-green: #8fb84a;
+  --color-gold: #d3b77a;
+  --color-dark-3: #383a31;
+
+  --font-lato: "Lato", sans-serif;
+  --font-molgan: "Molgan", sans-serif;
+}
+
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));

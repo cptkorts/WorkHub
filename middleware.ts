@@ -7,8 +7,10 @@ export const config = {
     "/clients/:path*",
     "/appointments/:path*",
     "/invoices/:path*",
+    "/analytics/:path*",
     "/api/clients/:path*",
     "/api/appointments/:path*",
     "/api/invoices/:path*",
+    "/api/analytics/:path*",
   ],
 };
