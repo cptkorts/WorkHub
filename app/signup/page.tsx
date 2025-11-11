@@ -102,7 +102,7 @@ export default function SignupPage() {
                 name="name"
                 type="text"
                 required
-                className="mt-1 appearance-none relative block w-full px-3 py-2 border border-border placeholder-text-muted text-accent rounded-md focus:outline-none focus:ring-accent focus:border-accent sm:text-sm"
+                className="mt-1 appearance-none relative block w-full px-3 py-2 border border-border placeholder-text-muted text-hover rounded-md focus:outline-none focus:ring-2 focus:ring-muted focus:border-muted sm:text-sm"
                 placeholder="Theo Kortsos"
                 value={formData.name}
                 onChange={handleChange}
@@ -125,7 +125,7 @@ export default function SignupPage() {
                 type="email"
                 autoComplete="email"
                 required
-                className="mt-1 appearance-none relative block w-full px-3 py-2 border border-border placeholder-text-muted text-accent rounded-md focus:outline-none focus:ring-accent focus:border-accent sm:text-sm"
+                className="mt-1 appearance-none relative block w-full px-3 py-2 border border-border placeholder-text-muted text-hover rounded-md focus:outline-none focus:ring-2 focus:ring-muted focus:border-muted sm:text-sm"
                 placeholder="you@example.com"
                 value={formData.email}
                 onChange={handleChange}
@@ -148,7 +148,7 @@ export default function SignupPage() {
                 type="password"
                 autoComplete="new-password"
                 required
-                className="mt-1 appearance-none relative block w-full px-3 py-2 border border-border placeholder-text-muted text-accent rounded-md focus:outline-none focus:ring-accent focus:border-accent sm:text-sm"
+                className="mt-1 appearance-none relative block w-full px-3 py-2 border border-border placeholder-text-muted text-hover rounded-md focus:outline-none focus:ring-2 focus:ring-muted focus:border-muted sm:text-sm"
                 placeholder="At least 8 characters"
                 value={formData.password}
                 onChange={handleChange}
@@ -169,7 +169,7 @@ export default function SignupPage() {
                 id="businessName"
                 name="businessName"
                 type="text"
-                className="mt-1 appearance-none relative block w-full px-3 py-2 border border-border placeholder-text-muted text-accent rounded-md focus:outline-none focus:ring-accent focus:border-accent sm:text-sm"
+                className="mt-1 appearance-none relative block w-full px-3 py-2 border border-border placeholder-text-muted text-hover rounded-md focus:outline-none focus:ring-2 focus:ring-muted focus:border-muted sm:text-sm"
                 placeholder="Your Business Name"
                 value={formData.businessName}
                 onChange={handleChange}
@@ -181,9 +181,11 @@ export default function SignupPage() {
             <button
               type="submit"
               disabled={loading}
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-base rounded-md text-background bg-default hover:bg-hover focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent cursor-pointer transition-colors  disabled:opacity-50 disabled:cursor-not-allowed"
+              className="group relative w-full py-2 px-4 border-2 border-success bg-background font-medium rounded-md overflow-hidden disabled:opacity-50 disabled:cursor-not-allowed before:content-[''] before:absolute before:inset-0 before:bg-success before:transition-all before:duration-300 before:ease-out before:scale-x-100 hover:before:scale-x-0 cursor-pointer"
             >
-              {loading ? "Creating account..." : "Sign up"}
+              <span className="relative z-10 transition-colors duration-300 text-white group-hover:text-success">
+                {loading ? "Creating account..." : "Sign up"}
+              </span>
             </button>
           </div>
 

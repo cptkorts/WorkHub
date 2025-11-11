@@ -241,7 +241,7 @@ export default function AppointmentsPage() {
                   </div>
                   <div className="flex justify-between">
                     <span className="text-accent">Upcoming</span>
-                    <span className="font-semibold text-green-600">
+                    <span className="font-semibold text-blue-600">
                       {
                         appointments.filter((a) => a.status === "upcoming")
                           .length
@@ -250,7 +250,7 @@ export default function AppointmentsPage() {
                   </div>
                   <div className="flex justify-between">
                     <span className="text-accent">Completed</span>
-                    <span className="font-semibold text-blue-600">
+                    <span className="font-semibold text-green-600">
                       {
                         appointments.filter((a) => a.status === "completed")
                           .length

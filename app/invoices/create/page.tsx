@@ -4,6 +4,8 @@ import { useState, useEffect, FormEvent } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import Navbar from "@/components/Navbar";
+import { MoveLeft, Plus, X } from "lucide-react";
 
 interface Client {
   _id: string;
@@ -177,37 +179,22 @@ export default function CreateInvoicePage() {
   if (!session) return null;
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <nav className="bg-white shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between h-16">
-            <div className="flex items-center">
-              <Link
-                href="/dashboard"
-                className="text-2xl font-bold text-gray-900"
-              >
-                WorkHub
-              </Link>
-            </div>
-            <div className="flex items-center gap-4">
-              <Link
-                href="/invoices"
-                className="text-gray-600 hover:text-gray-900"
-              >
-                ← Back to Invoices
-              </Link>
-              <span className="text-gray-700">{session.user.name}</span>
-            </div>
-          </div>
-        </div>
-      </nav>
+    <div className="min-h-screen bg-background flex justify-center">
+      <Navbar />
 
       {/* Main Content */}
-      <main className="max-w-4xl mx-auto py-6 sm:px-6 lg:px-8">
-        <div className="px-4 py-6 sm:px-0">
+      <main className="flex-1 ml-60 py-6 px-8 max-w-5xl">
+        {/* Back Button */}
+        <Link
+          href="/invoices"
+          className="flex gap-1 items-center text-default hover:text-default/90 mb-6"
+        >
+          <MoveLeft size={16} /> Back to Invoices
+        </Link>
+
+        <div>
           <div className="bg-white rounded-lg shadow-sm p-8">
-            <h1 className="text-3xl font-bold text-gray-900 mb-6">
+            <h1 className="text-3xl font-bold text-text-default mb-6">
               Create Invoice
             </h1>
 
@@ -221,8 +208,8 @@ export default function CreateInvoicePage() {
               {/* Invoice Details */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Client *
+                  <label className="block font-medium text-hover mb-1">
+                    Client
                   </label>
                   <select
                     required
@@ -230,11 +217,17 @@ export default function CreateInvoicePage() {
                     onChange={(e) =>
                       setFormData({ ...formData, clientId: e.target.value })
                     }
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-muted"
                   >
-                    <option value="">Select a client</option>
+                    <option value="" className="text-default">
+                      Select a client
+                    </option>
                     {clients.map((client) => (
-                      <option key={client._id} value={client._id}>
+                      <option
+                        key={client._id}
+                        value={client._id}
+                        className="text-default"
+                      >
                         {client.fullName}
                         {client.businessName && ` (${client.businessName})`}
                       </option>
@@ -243,8 +236,8 @@ export default function CreateInvoicePage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Invoice Number *
+                  <label className="block  font-medium text-hover mb-1">
+                    Invoice Number
                   </label>
                   <input
                     type="text"
@@ -256,14 +249,14 @@ export default function CreateInvoicePage() {
                         invoiceNumber: e.target.value,
                       })
                     }
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-muted"
                     placeholder="INV-202411-001"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Due Date *
+                  <label className="block font-medium text-hover mb-1">
+                    Due Date
                   </label>
                   <input
                     type="date"
@@ -272,12 +265,12 @@ export default function CreateInvoicePage() {
                     onChange={(e) =>
                       setFormData({ ...formData, dueDate: e.target.value })
                     }
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-muted"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block font-medium text-hover mb-1">
                     Tax (%)
                   </label>
                   <input
@@ -289,7 +282,7 @@ export default function CreateInvoicePage() {
                     onChange={(e) =>
                       setFormData({ ...formData, tax: e.target.value })
                     }
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-muted"
                     placeholder="0"
                   />
                 </div>
@@ -298,15 +291,16 @@ export default function CreateInvoicePage() {
               {/* Line Items */}
               <div>
                 <div className="flex justify-between items-center mb-4">
-                  <h2 className="text-xl font-semibold text-gray-900">
+                  <h2 className="text-xl font-semibold text-text-default">
                     Line Items
                   </h2>
                   <button
                     type="button"
                     onClick={handleAddItem}
-                    className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors text-sm"
+                    className="flex gap-1 items-center group bg-success text-white px-4 py-2 rounded-md hover:bg-success/85 transition-all text-sm duration-200 cursor-pointer"
                   >
-                    + Add Item
+                    <Plus size={16} className="group-hover:scale-110" /> Add
+                    Item
                   </button>
                 </div>
 
@@ -314,11 +308,11 @@ export default function CreateInvoicePage() {
                   {items.map((item, index) => (
                     <div
                       key={index}
-                      className="border border-gray-200 rounded-lg p-4"
+                      className="border border-border rounded-lg p-4"
                     >
                       <div className="grid grid-cols-12 gap-4">
                         <div className="col-span-12 md:col-span-5">
-                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                          <label className="block text-sm font-medium text-hover mb-1">
                             Description *
                           </label>
                           <input
@@ -332,13 +326,13 @@ export default function CreateInvoicePage() {
                                 e.target.value
                               )
                             }
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="w-full px-3 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-muted"
                             placeholder="Service or product description"
                           />
                         </div>
 
                         <div className="col-span-6 md:col-span-2">
-                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                          <label className="block text-sm font-medium text-hover mb-1">
                             Qty *
                           </label>
                           <input
@@ -353,12 +347,12 @@ export default function CreateInvoicePage() {
                                 parseFloat(e.target.value) || 0
                               )
                             }
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="w-full px-3 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-muted"
                           />
                         </div>
 
                         <div className="col-span-6 md:col-span-2">
-                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                          <label className="block text-sm font-medium text-hover mb-1">
                             Price *
                           </label>
                           <input
@@ -374,28 +368,28 @@ export default function CreateInvoicePage() {
                                 parseFloat(e.target.value) || 0
                               )
                             }
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="w-full px-3 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-muted"
                           />
                         </div>
 
                         <div className="col-span-10 md:col-span-2">
-                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                          <label className="block text-sm font-medium text-hover mb-1">
                             Total
                           </label>
-                          <div className="px-3 py-2 bg-gray-50 border border-gray-300 rounded-md font-semibold text-gray-900">
+                          <div className="px-3 py-2 bg-success/20 border border-border rounded-md font-semibold text-text-default">
                             ${item.total.toFixed(2)}
                           </div>
                         </div>
 
-                        <div className="col-span-2 md:col-span-1 flex items-end">
+                        <div className="col-span-2 md:col-span-1 flex items-end justify-center">
                           {items.length > 1 && (
                             <button
                               type="button"
                               onClick={() => handleRemoveItem(index)}
-                              className="w-full px-3 py-2 bg-red-50 text-red-600 rounded-md hover:bg-red-100 transition-colors"
+                              className="group flex items-center justify-center w-10 h-10 bg-error/20 text-error rounded-full hover:bg-error/30 transition-all duration-200 cursor-pointer"
                               title="Remove item"
                             >
-                              ×
+                              <X size={20} className="group-hover:scale-110" />
                             </button>
                           )}
                         </div>
@@ -408,19 +402,19 @@ export default function CreateInvoicePage() {
               {/* Totals */}
               <div className="border-t pt-6">
                 <div className="max-w-sm ml-auto space-y-2">
-                  <div className="flex justify-between text-gray-700">
+                  <div className="flex justify-between text-text-default">
                     <span>Subtotal:</span>
                     <span className="font-semibold">
                       ${calculateSubtotal().toFixed(2)}
                     </span>
                   </div>
-                  <div className="flex justify-between text-gray-700">
+                  <div className="flex justify-between text-text-default/75">
                     <span>Tax ({formData.tax}%):</span>
                     <span className="font-semibold">
                       ${calculateTax().toFixed(2)}
                     </span>
                   </div>
-                  <div className="flex justify-between text-xl font-bold text-gray-900 pt-2 border-t">
+                  <div className="flex justify-between text-xl font-bold text-text-default pt-2 border-t">
                     <span>Total:</span>
                     <span>${calculateTotal().toFixed(2)}</span>
                   </div>
@@ -429,7 +423,7 @@ export default function CreateInvoicePage() {
 
               {/* Notes */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block font-medium text-hover mb-1">
                   Notes
                 </label>
                 <textarea
@@ -438,7 +432,7 @@ export default function CreateInvoicePage() {
                     setFormData({ ...formData, notes: e.target.value })
                   }
                   rows={3}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-muted"
                   placeholder="Additional notes or payment terms..."
                 />
               </div>
@@ -448,14 +442,14 @@ export default function CreateInvoicePage() {
                 <button
                   type="button"
                   onClick={() => router.push("/invoices")}
-                  className="px-6 py-3 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition-colors"
+                  className="px-6 py-3 bg-background border border-border rounded-md text-success hover:text-light hover:bg-muted transition-colors duration-200 cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={loading}
-                  className="flex-1 px-6 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-semibold"
+                  className="flex-1 px-6 py-3 font-semibold bg-success text-white rounded-md hover:bg-default/90 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                 >
                   {loading ? "Creating..." : "Create Invoice"}
                 </button>

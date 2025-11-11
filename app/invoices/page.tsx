@@ -5,6 +5,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
+import { FilePlus, Plus } from "lucide-react";
 
 interface InvoiceItem {
   description: string;
@@ -127,7 +128,7 @@ export default function InvoicesPage() {
   const filteredInvoices = getFilteredInvoices();
 
   return (
-    <div className="min-h-screen bg-gray-50 flex">
+    <div className="min-h-screen bg-background flex">
       <Navbar />
 
       {/* Main Content */}
@@ -136,16 +137,18 @@ export default function InvoicesPage() {
           {/* Page Header */}
           <div className="flex justify-between items-center mb-6">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">Invoices</h1>
-              <p className="text-gray-600 mt-1">
+              <h1 className="text-3xl font-bold text-text-default">Invoices</h1>
+              <p className="text-light mt-1">
                 Manage invoices and track payments
               </p>
             </div>
             <button
               onClick={() => router.push("/invoices/create")}
-              className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2"
+              className="bg-success group text-white px-6 py-3 rounded-lg hover:bg-success/70 transition-all duration-200 cursor-pointer flex items-center gap-2"
             >
-              <span className="text-xl">+</span>
+              <span className="text-xl group-hover:scale-120 transition-transform duration-200">
+                <Plus size={20} />
+              </span>
               Create Invoice
             </button>
           </div>
@@ -153,26 +156,26 @@ export default function InvoicesPage() {
           {/* Stats Cards */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
             <div className="bg-white p-6 rounded-lg shadow-sm">
-              <p className="text-gray-600 text-sm mb-1">Total Invoices</p>
-              <p className="text-3xl font-bold text-gray-900">
+              <p className="text-light text-sm mb-1">Total Invoices</p>
+              <p className="text-3xl font-bold text-text-default">
                 {invoices.length}
               </p>
             </div>
             <div className="bg-white p-6 rounded-lg shadow-sm">
-              <p className="text-gray-600 text-sm mb-1">Paid</p>
-              <p className="text-3xl font-bold text-green-600">
+              <p className="text-light text-sm mb-1">Paid</p>
+              <p className="text-3xl font-bold text-hover">
                 {getPaidInvoices().length}
               </p>
             </div>
             <div className="bg-white p-6 rounded-lg shadow-sm">
-              <p className="text-gray-600 text-sm mb-1">Unpaid</p>
-              <p className="text-3xl font-bold text-orange-600">
+              <p className="text-light text-sm mb-1">Unpaid</p>
+              <p className="text-3xl font-bold text-error">
                 {getUnpaidInvoices().length}
               </p>
             </div>
             <div className="bg-white p-6 rounded-lg shadow-sm">
-              <p className="text-gray-600 text-sm mb-1">Total Revenue</p>
-              <p className="text-3xl font-bold text-blue-600">
+              <p className="text-light text-sm mb-1">Total Revenue</p>
+              <p className="text-3xl font-bold text-green">
                 ${getTotalRevenue().toFixed(2)}
               </p>
             </div>
@@ -180,17 +183,17 @@ export default function InvoicesPage() {
 
           {/* Outstanding Balance Banner */}
           {getOutstandingBalance() > 0 && (
-            <div className="bg-orange-50 border border-orange-200 rounded-lg p-4 mb-6">
+            <div className="bg-error/20 border border-error/50 rounded-lg p-4 mb-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-orange-800 font-semibold">
+                  <p className="text-error font-semibold">
                     Outstanding Balance
                   </p>
-                  <p className="text-orange-600 text-sm">
+                  <p className="text-error/80 text-sm">
                     {getUnpaidInvoices().length} unpaid invoice(s)
                   </p>
                 </div>
-                <p className="text-2xl font-bold text-orange-900">
+                <p className="text-2xl font-bold text-red-900">
                   ${getOutstandingBalance().toFixed(2)}
                 </p>
               </div>
@@ -201,30 +204,30 @@ export default function InvoicesPage() {
           <div className="mb-6 flex gap-2">
             <button
               onClick={() => setFilterStatus("all")}
-              className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+              className={`px-4 py-2 rounded-lg font-medium transition-colors duration-200 cursor-pointer ${
                 filterStatus === "all"
-                  ? "bg-blue-600 text-white"
-                  : "bg-white text-gray-700 hover:bg-gray-50"
+                  ? "bg-accent text-white"
+                  : "bg-white text-accent hover:bg-accent/10"
               }`}
             >
               All ({invoices.length})
             </button>
             <button
               onClick={() => setFilterStatus("unpaid")}
-              className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+              className={`px-4 py-2 rounded-lg font-medium transition-colors duration-200 cursor-pointer ${
                 filterStatus === "unpaid"
-                  ? "bg-orange-600 text-white"
-                  : "bg-white text-gray-700 hover:bg-gray-50"
+                  ? "bg-error text-white"
+                  : "bg-white text-accent hover:bg-error/20"
               }`}
             >
               Unpaid ({getUnpaidInvoices().length})
             </button>
             <button
               onClick={() => setFilterStatus("paid")}
-              className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+              className={`px-4 py-2 rounded-lg font-medium transition-colors duration-200 cursor-pointer ${
                 filterStatus === "paid"
-                  ? "bg-green-600 text-white"
-                  : "bg-white text-gray-700 hover:bg-gray-50"
+                  ? "bg-success text-white"
+                  : "bg-white text-accent hover:bg-success/20"
               }`}
             >
               Paid ({getPaidInvoices().length})
@@ -233,19 +236,21 @@ export default function InvoicesPage() {
 
           {/* Invoices Grid */}
           {filteredInvoices.length === 0 ? (
-            <div className="bg-white rounded-lg shadow-sm p-12 text-center">
-              <div className="text-6xl mb-4">📄</div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">
+            <div className="bg-muted/10 rounded-lg shadow-sm p-12 flex flex-col items-center">
+              <div className="text-6xl mb-4 text-default">
+                <FilePlus size={80} />
+              </div>
+              <h3 className="text-xl font-semibold text-text-default mb-2">
                 No invoices found
               </h3>
-              <p className="text-gray-500 mb-6">
+              <p className="text-light mb-6">
                 {filterStatus === "all"
                   ? "Create your first invoice to get started"
                   : `No ${filterStatus} invoices`}
               </p>
               <button
                 onClick={() => router.push("/invoices/create")}
-                className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
+                className="bg-accent text-white px-6 py-3 rounded-lg hover:bg-accent/80 transition-colors duration-200 cursor-pointer"
               >
                 Create Invoice
               </button>
@@ -256,15 +261,15 @@ export default function InvoicesPage() {
                 <Link
                   key={invoice._id}
                   href={`/invoices/${invoice._id}`}
-                  className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow p-6 border-2 border-transparent hover:border-blue-200"
+                  className="bg-white rounded-lg shadow-xs hover:shadow-sm transition-all duration-200 p-6 border-2 border-transparent hover:border-success/50"
                 >
                   {/* Invoice Header */}
                   <div className="flex justify-between items-start mb-4">
                     <div>
-                      <h3 className="text-lg font-bold text-gray-900">
+                      <h3 className="text-lg font-bold text-text-default">
                         {invoice.invoiceNumber}
                       </h3>
-                      <p className="text-sm text-gray-600">
+                      <p className="text-sm text-light">
                         {clients[invoice.clientId]?.fullName ||
                           "Unknown Client"}
                       </p>
@@ -272,10 +277,10 @@ export default function InvoicesPage() {
                     <span
                       className={`px-3 py-1 rounded-full text-xs font-semibold ${
                         invoice.status === "paid"
-                          ? "bg-green-100 text-green-800"
+                          ? "bg-success/20 text-success"
                           : isOverdue(invoice.dueDate)
                           ? "bg-red-100 text-red-800"
-                          : "bg-orange-100 text-orange-800"
+                          : "bg-error/20 text-error"
                       }`}
                     >
                       {invoice.status === "paid"
@@ -288,10 +293,10 @@ export default function InvoicesPage() {
 
                   {/* Invoice Amount */}
                   <div className="mb-4">
-                    <p className="text-3xl font-bold text-gray-900">
+                    <p className="text-3xl font-bold text-text-default">
                       ${invoice.total.toFixed(2)}
                     </p>
-                    <p className="text-sm text-gray-500">
+                    <p className="text-sm text-light">
                       {invoice.items.length} item(s)
                     </p>
                   </div>
@@ -299,19 +304,19 @@ export default function InvoicesPage() {
                   {/* Invoice Dates */}
                   <div className="space-y-2 text-sm">
                     <div className="flex justify-between">
-                      <span className="text-gray-600">Created:</span>
-                      <span className="text-gray-900">
+                      <span className="text-text-muted">Created:</span>
+                      <span className="text-text-default">
                         {new Date(invoice.createdAt).toLocaleDateString()}
                       </span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-gray-600">Due:</span>
+                      <span className="text-text-muted">Due:</span>
                       <span
                         className={
                           isOverdue(invoice.dueDate) &&
                           invoice.status === "unpaid"
-                            ? "text-red-600 font-semibold"
-                            : "text-gray-900"
+                            ? "text-error font-semibold"
+                            : "text-text-default"
                         }
                       >
                         {new Date(invoice.dueDate).toLocaleDateString()}
@@ -319,8 +324,8 @@ export default function InvoicesPage() {
                     </div>
                     {invoice.paidDate && (
                       <div className="flex justify-between">
-                        <span className="text-gray-600">Paid:</span>
-                        <span className="text-green-600">
+                        <span className="text-text-muted">Paid:</span>
+                        <span className="text-green">
                           {new Date(invoice.paidDate).toLocaleDateString()}
                         </span>
                       </div>

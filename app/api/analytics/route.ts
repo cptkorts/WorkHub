@@ -125,24 +125,78 @@ export async function GET() {
       },
     ]);
 
-    // Format monthly income data
-    const monthlyIncome = [];
+    // Aggregate: Monthly Clients (last 6 months)
+    const monthlyClientsResult = await Client.aggregate([
+      {
+        $match: {
+          userId: userId,
+          createdAt: { $gte: sixMonthsAgo },
+        },
+      },
+      {
+        $group: {
+          _id: {
+            year: { $year: "$createdAt" },
+            month: { $month: "$createdAt" },
+          },
+          count: { $sum: 1 },
+        },
+      },
+      {
+        $sort: {
+          "_id.year": 1,
+          "_id.month": 1,
+        },
+      },
+    ]);
+
+    // Aggregate: Monthly Appointments (last 6 months)
+    const monthlyAppointmentsResult = await Appointment.aggregate([
+      {
+        $match: {
+          userId: userId,
+          createdAt: { $gte: sixMonthsAgo },
+        },
+      },
+      {
+        $group: {
+          _id: {
+            year: { $year: "$createdAt" },
+            month: { $month: "$createdAt" },
+          },
+          count: { $sum: 1 },
+        },
+      },
+      {
+        $sort: {
+          "_id.year": 1,
+          "_id.month": 1,
+        },
+      },
+    ]);
+
+    // Format monthly data
+    const monthlyData = [];
     for (let i = 5; i >= 0; i--) {
       const date = new Date(now.getFullYear(), now.getMonth() - i, 1);
       const year = date.getFullYear();
       const month = date.getMonth() + 1;
 
-      const dataPoint = monthlyIncomeResult.find(
+      const incomeData = monthlyIncomeResult.find(
+        (item) => item._id.year === year && item._id.month === month
+      );
+      const clientsData = monthlyClientsResult.find(
+        (item) => item._id.year === year && item._id.month === month
+      );
+      const appointmentsData = monthlyAppointmentsResult.find(
         (item) => item._id.year === year && item._id.month === month
       );
 
-      monthlyIncome.push({
-        month: date.toLocaleDateString("en-US", {
-          month: "short",
-          year: "numeric",
-        }),
-        income: dataPoint?.income || 0,
-        count: dataPoint?.count || 0,
+      monthlyData.push({
+        month: date.toLocaleDateString("en-US", { month: "short" }),
+        revenue: incomeData?.income || 0,
+        clients: clientsData?.count || 0,
+        appointments: appointmentsData?.count || 0,
       });
     }
 
@@ -203,7 +257,7 @@ export async function GET() {
       monthlyRevenue,
       upcomingAppointments,
       totalRevenue,
-      monthlyIncome,
+      monthlyData,
       invoices: {
         paid: paidInvoices,
         unpaid: unpaidInvoices,

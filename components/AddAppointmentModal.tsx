@@ -283,7 +283,7 @@ export default function AddAppointmentModal({
               <button
                 type="submit"
                 disabled={loading || clients.length === 0}
-                className="flex-1 px-4 py-2 bg-success text-white rounded-md hover:bg-default transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                className="flex-1 px-4 py-2 bg-success text-white rounded-md hover:bg-default/90 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
               >
                 {loading ? "Creating..." : "Create Appointment"}
               </button>

@@ -22,13 +22,14 @@
 }
 
 .react-calendar__tile:enabled:hover {
-  background-color: #f5eedc !important;
+  background-color: #e5ead4/50 !important;
 }
 
 @theme {
   --color-default: #6b8e23;
   --color-hover: #5a7a1c;
   --color-light: #a2c153;
+  --color-money: #a8c686;
   --color-muted: #e5ead4;
   --color-accent: #cdaa5f;
   --color-accent-light: #f5eedc;

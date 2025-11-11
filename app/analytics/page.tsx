@@ -5,8 +5,8 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import {
-  BarChart,
-  Bar,
+  LineChart,
+  Line,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -14,11 +14,13 @@ import {
   ResponsiveContainer,
   Legend,
 } from "recharts";
+import { ClipboardClock, HandCoins, PiggyBank, UserCheck } from "lucide-react";
 
-interface MonthlyIncomeData {
+interface MonthlyData {
   month: string;
-  income: number;
-  count: number;
+  revenue: number;
+  clients: number;
+  appointments: number;
 }
 
 interface AnalyticsData {
@@ -26,7 +28,7 @@ interface AnalyticsData {
   monthlyRevenue: number;
   upcomingAppointments: number;
   totalRevenue: number;
-  monthlyIncome: MonthlyIncomeData[];
+  monthlyData: MonthlyData[];
   invoices: {
     paid: { count: number; total: number };
     unpaid: { count: number; total: number };
@@ -101,8 +103,8 @@ export default function AnalyticsPage() {
         <div>
           {/* Page Header */}
           <div className="mb-6">
-            <h1 className="text-3xl font-bold text-gray-900">Analytics</h1>
-            <p className="text-gray-600 mt-1">
+            <h1 className="text-3xl font-bold text-text-default">Analytics</h1>
+            <p className="text-light mt-1">
               Business insights and performance metrics
             </p>
           </div>
@@ -116,92 +118,141 @@ export default function AnalyticsPage() {
           {/* Key Metrics */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             {/* Total Clients */}
-            <div className="bg-white rounded-lg shadow-sm p-6 border-l-4 border-blue-500">
+            <div className="group bg-white rounded-lg shadow-xs hover:shadow-sm transition-all duration-200 p-6 border-l-4 border-accent/80">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600 mb-1">
+                  <p className="text-sm font-medium text-text-muted mb-1">
                     Total Clients
                   </p>
-                  <p className="text-3xl font-bold text-gray-900">
+                  <p className="text-3xl font-bold text-accent">
                     {analytics.totalClients}
                   </p>
                 </div>
-                <div className="text-4xl">👥</div>
+                <div className="text-4xl text-accent">
+                  <UserCheck
+                    size={35}
+                    className="group-hover:scale-105 transition-all duration-200"
+                  />
+                </div>
               </div>
             </div>
-
             {/* This Month's Revenue */}
-            <div className="bg-white rounded-lg shadow-sm p-6 border-l-4 border-green-500">
+            <div className="group bg-white rounded-lg shadow-xs hover:shadow-sm transition-all duration-200 p-6 border-l-4 border-success">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600 mb-1">
+                  <p className="text-sm font-medium text-text-muted mb-1">
                     {currentMonth} Revenue
                   </p>
-                  <p className="text-3xl font-bold text-green-600">
+                  <p className="text-3xl font-bold text-default">
                     ${analytics.monthlyRevenue.toFixed(2)}
                   </p>
                 </div>
-                <div className="text-4xl">💰</div>
+                <div className="text-4xl text-default">
+                  <HandCoins
+                    size={35}
+                    className="group-hover:scale-105 transition-all duration-200"
+                  />
+                </div>
               </div>
             </div>
 
             {/* Upcoming Appointments */}
-            <div className="bg-white rounded-lg shadow-sm p-6 border-l-4 border-purple-500">
+            <div className="group bg-white rounded-lg shadow-xs hover:shadow-sm transition-all duration-200 p-6 border-l-4 border-blue-500/80">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600 mb-1">
+                  <p className="text-sm font-medium text-text-muted mb-1">
                     Upcoming Appointments
                   </p>
-                  <p className="text-3xl font-bold text-purple-600">
+                  <p className="text-3xl font-bold text-blue-600">
                     {analytics.upcomingAppointments}
                   </p>
                 </div>
-                <div className="text-4xl">📅</div>
+                <div className="text-4xl text-blue-600">
+                  <ClipboardClock
+                    size={35}
+                    className="group-hover:scale-105 transition-all duration-200"
+                  />
+                </div>
               </div>
             </div>
 
             {/* Total Revenue */}
-            <div className="bg-white rounded-lg shadow-sm p-6 border-l-4 border-orange-500">
+            <div className="group bg-white rounded-lg shadow-xs hover:shadow-sm transition-all duration-200 p-6 border-l-4 border-money">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600 mb-1">
+                  <p className="text-sm font-medium text-text-muted mb-1">
                     Total Revenue
                   </p>
-                  <p className="text-3xl font-bold text-orange-600">
+                  <p className="text-3xl font-bold text-money">
                     ${analytics.totalRevenue.toFixed(2)}
                   </p>
                 </div>
-                <div className="text-4xl">📊</div>
+                <div className="text-4xl text-money">
+                  <PiggyBank
+                    size={35}
+                    className="group-hover:scale-105 transition-all duration-200"
+                  />
+                </div>
               </div>
             </div>
           </div>
 
-          {/* Monthly Income Chart */}
+          {/* Monthly Trends Chart */}
           <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
             <h2 className="text-xl font-bold text-gray-900 mb-6">
-              Monthly Income (Last 6 Months)
+              6-Month Trends
             </h2>
-            <ResponsiveContainer width="100%" height={350}>
-              <BarChart data={analytics.monthlyIncome}>
-                <CartesianGrid strokeDasharray="3 3" />
+            <ResponsiveContainer width="100%" height={400}>
+              <LineChart data={analytics.monthlyData}>
+                <CartesianGrid stroke="#eee" strokeDasharray="5 5" />
                 <XAxis dataKey="month" />
-                <YAxis />
+                <YAxis yAxisId="left" />
+                <YAxis yAxisId="right" orientation="right" />
                 <Tooltip
-                  formatter={(value: number) => `$${value.toFixed(2)}`}
-                  labelStyle={{ color: "#374151" }}
                   contentStyle={{
                     backgroundColor: "#fff",
                     border: "1px solid #e5e7eb",
+                    borderRadius: "8px",
+                  }}
+                  formatter={(value: number, name: string) => {
+                    if (name === "Revenue") {
+                      return [`$${value.toFixed(2)}`, name];
+                    }
+                    return [value, name];
                   }}
                 />
                 <Legend />
-                <Bar
-                  dataKey="income"
-                  fill="#3b82f6"
-                  name="Income"
-                  radius={[8, 8, 0, 0]}
+                <Line
+                  yAxisId="left"
+                  type="monotone"
+                  dataKey="revenue"
+                  stroke="#a8c686"
+                  strokeWidth={2}
+                  name="Revenue"
+                  dot={{ fill: "#a8c686", r: 4 }}
+                  activeDot={{ r: 6 }}
                 />
-              </BarChart>
+                <Line
+                  yAxisId="right"
+                  type="monotone"
+                  dataKey="clients"
+                  stroke="#cdaa5f"
+                  strokeWidth={2}
+                  name="Clients"
+                  dot={{ fill: "#cdaa5f", r: 4 }}
+                  activeDot={{ r: 6 }}
+                />
+                <Line
+                  yAxisId="right"
+                  type="monotone"
+                  dataKey="appointments"
+                  stroke="#3b82f6"
+                  strokeWidth={2}
+                  name="Appointments"
+                  dot={{ fill: "#3b82f6", r: 4 }}
+                  activeDot={{ r: 6 }}
+                />
+              </LineChart>
             </ResponsiveContainer>
           </div>
 
@@ -209,39 +260,39 @@ export default function AnalyticsPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Invoice Breakdown */}
             <div className="bg-white rounded-lg shadow-sm p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">
+              <h3 className="text-lg font-semibold text-default mb-4">
                 Invoice Status
               </h3>
               <div className="space-y-4">
-                <div className="flex items-center justify-between p-4 bg-green-50 rounded-lg">
+                <div className="flex items-center justify-between p-4 bg-money/20 rounded-lg">
                   <div>
-                    <p className="text-sm font-medium text-gray-600">
+                    <p className="text-sm font-medium text-text-muted">
                       Paid Invoices
                     </p>
-                    <p className="text-2xl font-bold text-green-700">
+                    <p className="text-2xl font-bold text-hover">
                       {analytics.invoices.paid.count}
                     </p>
                   </div>
                   <div className="text-right">
-                    <p className="text-sm text-gray-600">Total</p>
-                    <p className="text-xl font-semibold text-green-600">
+                    <p className="text-sm text-text-muted">Total</p>
+                    <p className="text-xl font-semibold text-hover">
                       ${analytics.invoices.paid.total.toFixed(2)}
                     </p>
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between p-4 bg-orange-50 rounded-lg">
+                <div className="flex items-center justify-between p-4 bg-error/15 rounded-lg">
                   <div>
-                    <p className="text-sm font-medium text-gray-600">
+                    <p className="text-sm font-medium text-text-muted">
                       Unpaid Invoices
                     </p>
-                    <p className="text-2xl font-bold text-orange-700">
+                    <p className="text-2xl font-bold text-error">
                       {analytics.invoices.unpaid.count}
                     </p>
                   </div>
                   <div className="text-right">
-                    <p className="text-sm text-gray-600">Outstanding</p>
-                    <p className="text-xl font-semibold text-orange-600">
+                    <p className="text-sm text-text-muted">Outstanding</p>
+                    <p className="text-xl font-semibold text-error">
                       ${analytics.invoices.unpaid.total.toFixed(2)}
                     </p>
                   </div>
@@ -251,27 +302,33 @@ export default function AnalyticsPage() {
 
             {/* Appointment Breakdown */}
             <div className="bg-white rounded-lg shadow-sm p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">
+              <h3 className="text-lg font-semibold text-default mb-4">
                 Appointment Status
               </h3>
               <div className="space-y-4">
                 <div className="flex items-center justify-between p-4 bg-blue-50 rounded-lg">
-                  <p className="text-sm font-medium text-gray-600">Upcoming</p>
-                  <p className="text-2xl font-bold text-blue-700">
+                  <p className="text-sm font-medium text-text-muted">
+                    Upcoming
+                  </p>
+                  <p className="text-2xl font-bold text-blue-600">
                     {analytics.appointments.upcoming}
                   </p>
                 </div>
 
-                <div className="flex items-center justify-between p-4 bg-green-50 rounded-lg">
-                  <p className="text-sm font-medium text-gray-600">Completed</p>
-                  <p className="text-2xl font-bold text-green-700">
+                <div className="flex items-center justify-between p-4 bg-money/20 rounded-lg">
+                  <p className="text-sm font-medium text-text-muted ">
+                    Completed
+                  </p>
+                  <p className="text-2xl font-bold text-hover">
                     {analytics.appointments.completed}
                   </p>
                 </div>
 
-                <div className="flex items-center justify-between p-4 bg-red-50 rounded-lg">
-                  <p className="text-sm font-medium text-gray-600">Canceled</p>
-                  <p className="text-2xl font-bold text-red-700">
+                <div className="flex items-center justify-between p-4 bg-error/15 rounded-lg">
+                  <p className="text-sm font-medium text-text-muted">
+                    Canceled
+                  </p>
+                  <p className="text-2xl font-bold text-error">
                     {analytics.appointments.canceled}
                   </p>
                 </div>

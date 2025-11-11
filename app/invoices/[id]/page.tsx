@@ -5,6 +5,8 @@ import { useSession } from "next-auth/react";
 import { useRouter, useParams } from "next/navigation";
 import Link from "next/link";
 import jsPDF from "jspdf";
+import Navbar from "@/components/Navbar";
+import { MoveLeft } from "lucide-react";
 
 interface InvoiceItem {
   description: string;
@@ -336,35 +338,20 @@ export default function InvoiceDetailPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <nav className="bg-white shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between h-16">
-            <div className="flex items-center">
-              <Link
-                href="/dashboard"
-                className="text-2xl font-bold text-gray-900"
-              >
-                WorkHub
-              </Link>
-            </div>
-            <div className="flex items-center gap-4">
-              <Link
-                href="/invoices"
-                className="text-gray-600 hover:text-gray-900"
-              >
-                ← Back to Invoices
-              </Link>
-              <span className="text-gray-700">{session.user.name}</span>
-            </div>
-          </div>
-        </div>
-      </nav>
+    <div className="min-h-screen bg-background flex justify-center">
+      <Navbar />
 
       {/* Main Content */}
-      <main className="max-w-4xl mx-auto py-6 sm:px-6 lg:px-8">
-        <div className="px-4 py-6 sm:px-0">
+      <main className="flex-1 ml-60 py-6 px-8 max-w-5xl">
+        {/* Back Button */}
+        <Link
+          href="/invoices"
+          className="flex gap-1 items-center text-default hover:text-default/90 mb-6"
+        >
+          <MoveLeft size={16} /> Back to Invoices
+        </Link>
+
+        <div>
           {error && (
             <div className="mb-6 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded">
               {error}
@@ -376,10 +363,10 @@ export default function InvoiceDetailPage() {
             <button
               onClick={handleTogglePaidStatus}
               disabled={updating}
-              className={`flex-1 px-6 py-3 rounded-lg font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${
+              className={`flex-1 px-6 py-3 rounded-lg font-semibold transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer ${
                 invoice.status === "paid"
-                  ? "bg-orange-600 text-white hover:bg-orange-700"
-                  : "bg-green-600 text-white hover:bg-green-700"
+                  ? "bg-error text-white hover:bg-error/80"
+                  : "bg-success text-white hover:bg-success/80"
               }`}
             >
               {updating
@@ -390,14 +377,14 @@ export default function InvoiceDetailPage() {
             </button>
             <button
               onClick={generatePDF}
-              className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-semibold"
+              className="px-6 py-3 bg-accent text-white rounded-lg hover:bg-accent/80 transition-colors duration-200 cursor-pointer font-semibold"
             >
               Download PDF
             </button>
             <button
               onClick={handleDelete}
               disabled={deleting}
-              className="px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-6 py-3 bg-error text-white rounded-lg hover:bg-error/80 transition-colors duration-200 cursor-pointer font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {deleting ? "Deleting..." : "Delete"}
             </button>
@@ -416,10 +403,10 @@ export default function InvoiceDetailPage() {
               <span
                 className={`px-4 py-2 rounded-full text-sm font-semibold ${
                   invoice.status === "paid"
-                    ? "bg-green-100 text-green-800"
+                    ? "bg-success/20 text-success"
                     : isOverdue(invoice.dueDate)
                     ? "bg-red-100 text-red-800"
-                    : "bg-orange-100 text-orange-800"
+                    : "bg-error/20 text-error"
                 }`}
               >
                 {invoice.status === "paid"

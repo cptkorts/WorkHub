@@ -5,7 +5,7 @@ import { useSession } from "next-auth/react";
 import { useRouter, useParams } from "next/navigation";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
-import { MoveLeft } from "lucide-react";
+import { MoveLeft, Settings } from "lucide-react";
 
 interface Client {
   _id: string;
@@ -199,8 +199,12 @@ export default function ClientDetailPage() {
                 <>
                   <button
                     onClick={() => setIsEditing(true)}
-                    className="px-4 py-2 bg-success text-white rounded-md hover:bg-success/80 transition-colors duration-200 cursor-pointer"
+                    className="flex gap-1 items-center group px-4 py-2 bg-success text-white rounded-md hover:bg-success/80 transition-colors duration-200 cursor-pointer"
                   >
+                    <Settings
+                      size={20}
+                      className="group-hover:rotate-45 transition-all duration-200 ease-out"
+                    />
                     Edit
                   </button>
                   <button

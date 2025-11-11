@@ -9,6 +9,7 @@ export interface IUser extends Document {
   logo?: string;
   phone?: string;
   address?: string;
+  website?: string;
   provider?: string; // 'credentials' | 'google'
   emailVerified?: Date;
   createdAt: Date;
@@ -48,6 +49,10 @@ const UserSchema = new Schema<IUser>(
       trim: true,
     },
     address: {
+      type: String,
+      trim: true,
+    },
+    website: {
       type: String,
       trim: true,
     },

@@ -80,7 +80,7 @@ export default function LoginPage() {
                 type="email"
                 autoComplete="email"
                 required
-                className="mt-1 appearance-none relative block w-full px-3 py-2 border border-border placeholder-text-muted text-accent rounded-md focus:outline-none focus:ring-accent focus:border-accent sm:text-sm"
+                className="mt-1 appearance-none relative block w-full px-3 py-2 border border-border placeholder-text-muted text-hover rounded-md focus:outline-none focus:ring-2 focus:ring-muted focus:border-muted sm:text-sm"
                 placeholder="Your email address"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -99,7 +99,7 @@ export default function LoginPage() {
                 type="password"
                 autoComplete="current-password"
                 required
-                className="mt-1 appearance-none relative block w-full px-3 py-2 border border-border placeholder-text-muted text-accent rounded-md focus:outline-none focus:ring-accent focus:border-accent sm:text-sm"
+                className="mt-1 appearance-none relative block w-full px-3 py-2 border border-border placeholder-text-muted text-hover rounded-md focus:outline-none focus:ring-2 focus:ring-muted focus:border-muted sm:text-sm"
                 placeholder="Your password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -111,9 +111,11 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-base rounded-md text-background bg-default hover:bg-hover focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent cursor-pointer transition-colors  disabled:opacity-50 disabled:cursor-not-allowed"
+              className="group relative w-full py-2 px-4 border-2 border-success text-success font-medium rounded-md overflow-hidden transition-colors duration-300 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed before:content-[''] before:absolute before:inset-0 before:bg-success before:transition-all before:duration-300 before:ease-out before:scale-x-0 hover:before:scale-x-100 cursor-pointer"
             >
-              {loading ? "Signing in..." : "Sign in"}
+              <span className="relative z-10">
+                {loading ? "Signing in..." : "Sign in"}
+              </span>
             </button>
           </div>
 
