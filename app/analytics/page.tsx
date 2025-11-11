@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
+import LoadingSpinner from "@/components/LoadingSpinner";
 import {
   LineChart,
   Line,
@@ -77,14 +78,7 @@ export default function AnalyticsPage() {
   };
 
   if (status === "loading" || loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading analytics...</p>
-        </div>
-      </div>
-    );
+    return <LoadingSpinner />;
   }
 
   if (!session || !analytics) return null;
@@ -131,7 +125,7 @@ export default function AnalyticsPage() {
                 <div className="text-4xl text-accent">
                   <UserCheck
                     size={35}
-                    className="group-hover:scale-105 transition-all duration-200"
+                    className="group-hover:scale-110 transition-all duration-200"
                   />
                 </div>
               </div>
@@ -150,7 +144,7 @@ export default function AnalyticsPage() {
                 <div className="text-4xl text-default">
                   <HandCoins
                     size={35}
-                    className="group-hover:scale-105 transition-all duration-200"
+                    className="group-hover:scale-110 transition-all duration-200"
                   />
                 </div>
               </div>
@@ -170,7 +164,7 @@ export default function AnalyticsPage() {
                 <div className="text-4xl text-blue-600">
                   <ClipboardClock
                     size={35}
-                    className="group-hover:scale-105 transition-all duration-200"
+                    className="group-hover:scale-110 transition-all duration-200"
                   />
                 </div>
               </div>
@@ -190,7 +184,7 @@ export default function AnalyticsPage() {
                 <div className="text-4xl text-money">
                   <PiggyBank
                     size={35}
-                    className="group-hover:scale-105 transition-all duration-200"
+                    className="group-hover:scale-110 transition-all duration-200"
                   />
                 </div>
               </div>
@@ -200,7 +194,7 @@ export default function AnalyticsPage() {
           {/* Monthly Trends Chart */}
           <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
             <h2 className="text-xl font-bold text-gray-900 mb-6">
-              6-Month Trends
+              Six-Month Trends
             </h2>
             <ResponsiveContainer width="100%" height={400}>
               <LineChart data={analytics.monthlyData}>

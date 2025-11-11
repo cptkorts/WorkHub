@@ -8,6 +8,7 @@ import "react-calendar/dist/Calendar.css";
 import AddAppointmentModal from "@/components/AddAppointmentModal";
 import EditAppointmentModal from "@/components/EditAppointmentModal";
 import Navbar from "@/components/Navbar";
+import LoadingSpinner from "@/components/LoadingSpinner";
 import { CalendarCheck, Plus } from "lucide-react";
 
 interface Appointment {
@@ -148,14 +149,7 @@ export default function AppointmentsPage() {
   };
 
   if (status === "loading" || loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading appointments...</p>
-        </div>
-      </div>
-    );
+    return <LoadingSpinner />;
   }
 
   if (!session) return null;

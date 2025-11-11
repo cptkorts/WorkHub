@@ -29,45 +29,64 @@ export const authOptions: AuthOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        if (!credentials?.email || !credentials?.password) {
-          throw new Error("Please provide both email and password");
-        }
+        try {
+          if (!credentials?.email || !credentials?.password) {
+            throw new Error("Please provide both email and password");
+          }
 
-        await connectDB();
+          await connectDB();
 
-        // Find user by email
-        const user = await User.findOne({ email: credentials.email });
+          // Find user by email (case-insensitive)
+          const user = await User.findOne({
+            email: credentials.email.toLowerCase(),
+          });
 
-        if (!user) {
-          throw new Error("No user found with this email");
-        }
+          console.log("Login attempt for:", credentials.email);
+          console.log("User found:", user ? "Yes" : "No");
 
-        // Check if user signed up with credentials
-        if (!user.password) {
-          throw new Error(
-            "Please sign in with the provider you used to sign up"
+          if (!user) {
+            throw new Error("No user found with this email");
+          }
+
+          // Check if user signed up with credentials
+          if (!user.password) {
+            throw new Error(
+              "Please sign in with the provider you used to sign up"
+            );
+          }
+
+          // Verify password
+          console.log("Stored password hash:", user.password);
+          console.log("Provided password:", credentials.password);
+          console.log(
+            "Hash starts with $2a or $2b?",
+            user.password?.startsWith("$2")
           );
+
+          const isPasswordValid = await bcrypt.compare(
+            credentials.password,
+            user.password
+          );
+
+          console.log("Password valid:", isPasswordValid);
+
+          if (!isPasswordValid) {
+            throw new Error("Invalid password");
+          }
+
+          return {
+            id: user._id.toString(),
+            email: user.email,
+            name: user.name,
+            businessName: user.businessName,
+            logo: user.logo,
+            phone: user.phone,
+            provider: "credentials",
+          };
+        } catch (error) {
+          console.error("Authorization error:", error);
+          throw error;
         }
-
-        // Verify password
-        const isPasswordValid = await bcrypt.compare(
-          credentials.password,
-          user.password
-        );
-
-        if (!isPasswordValid) {
-          throw new Error("Invalid password");
-        }
-
-        return {
-          id: user._id.toString(),
-          email: user.email,
-          name: user.name,
-          businessName: user.businessName,
-          logo: user.logo,
-          phone: user.phone,
-          provider: "credentials",
-        };
       },
     }),
   ],

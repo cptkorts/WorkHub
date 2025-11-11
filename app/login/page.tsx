@@ -46,7 +46,7 @@ export default function LoginPage() {
       <div className="max-w-md w-full space-y-8">
         <div>
           <h2 className="mt-6 text-center text-3xl font-semibold text-text-default">
-            Sign in to WorkHub
+            Sign in to <span className="font-molgan text-default">WorkHub</span>
           </h2>
           <p className="mt-2 text-center text-sm text-text-muted">
             Or{" "}
@@ -111,7 +111,7 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="group relative w-full py-2 px-4 border-2 border-success text-success font-medium rounded-md overflow-hidden transition-colors duration-300 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed before:content-[''] before:absolute before:inset-0 before:bg-success before:transition-all before:duration-300 before:ease-out before:scale-x-0 hover:before:scale-x-100 cursor-pointer"
+              className="group relative w-full py-2 px-4 border-2 border-success text-success font-medium rounded-md overflow-hidden transition-colors duration-300 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed before:content-[''] before:absolute before:inset-0 before:bg-success before:transition-all before:duration-300 before:ease-out before:scale-x-0 hover:before:scale-x-100 cursor-pointer focus:ring-2 focus:ring-muted"
             >
               <span className="relative z-10">
                 {loading ? "Signing in..." : "Sign in"}

@@ -5,6 +5,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
+import LoadingSpinner from "@/components/LoadingSpinner";
 import { FilePlus, Plus } from "lucide-react";
 
 interface InvoiceItem {
@@ -113,14 +114,7 @@ export default function InvoicesPage() {
   };
 
   if (status === "loading" || loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading invoices...</p>
-        </div>
-      </div>
-    );
+    return <LoadingSpinner />;
   }
 
   if (!session) return null;
@@ -207,7 +201,7 @@ export default function InvoicesPage() {
               className={`px-4 py-2 rounded-lg font-medium transition-colors duration-200 cursor-pointer ${
                 filterStatus === "all"
                   ? "bg-accent text-white"
-                  : "bg-white text-accent hover:bg-accent/10"
+                  : "text-accent hover:bg-accent/10"
               }`}
             >
               All ({invoices.length})
@@ -217,7 +211,7 @@ export default function InvoicesPage() {
               className={`px-4 py-2 rounded-lg font-medium transition-colors duration-200 cursor-pointer ${
                 filterStatus === "unpaid"
                   ? "bg-error text-white"
-                  : "bg-white text-accent hover:bg-error/20"
+                  : "text-accent hover:bg-error/20"
               }`}
             >
               Unpaid ({getUnpaidInvoices().length})
@@ -227,7 +221,7 @@ export default function InvoicesPage() {
               className={`px-4 py-2 rounded-lg font-medium transition-colors duration-200 cursor-pointer ${
                 filterStatus === "paid"
                   ? "bg-success text-white"
-                  : "bg-white text-accent hover:bg-success/20"
+                  : "text-accent hover:bg-success/20"
               }`}
             >
               Paid ({getPaidInvoices().length})
