@@ -69,8 +69,14 @@ export default function SignupPage() {
       <div className="max-w-md w-full space-y-8">
         <div>
           <h2 className="mt-6 text-center text-3xl font-semibold text-text-default">
-            Create your{" "}
-            <span className="font-molgan text-default">WorkHub</span> account
+            Create your
+            <Link
+              href={"/"}
+              className="font-molgan text-default hover:text-hover transition-colors duration-200"
+            >
+              WorkHub
+            </Link>{" "}
+            account
           </h2>
           <p className="mt-2 text-center text-sm text-text-muted">
             Or{" "}

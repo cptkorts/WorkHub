@@ -79,7 +79,7 @@ export default function Navbar() {
           {session?.user?.name}
         </Link>
         <button
-          onClick={() => signOut({ callbackUrl: "/login" })}
+          onClick={() => signOut({ callbackUrl: "/" })}
           className="group flex items-center px-3 py-2 aspect-square border-2 hover:border-error rounded-full cursor-pointer text-transparent font-semibold transition-colors duration-200"
         >
           <Power

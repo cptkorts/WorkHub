@@ -36,10 +36,10 @@ export default function Hero() {
               </span>
             </Link>
             <Link
-              href="/about"
+              href="/#workhub"
               className="relative group py-3 px-6 text-default flex items-center justify-center"
             >
-              <span className="absolute bottom-0 left-0 h-0.5 w-0 bg-success group-hover:w-full group-focus:w-full group-active:w-full transition-all duration-300"></span>
+              <span className="absolute bottom-0 left-0 h-0.5 w-0 bg-success group-hover:w-full transition-all duration-300"></span>
               <span className="flex gap-2 items-center">
                 Learn More
                 <ChevronDown className="opacity-0 -translate-y-2 group-hover:opacity-100 group-hover:translate-y-0.5 transition-all duration-300" />

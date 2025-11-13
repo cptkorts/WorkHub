@@ -3,7 +3,10 @@ import Image from "next/image";
 
 export default function Problem() {
   return (
-    <section className="min-h-screen w-full flex flex-col border-b border-border">
+    <section
+      id="workhub"
+      className="min-h-screen w-full flex flex-col border-b border-border"
+    >
       <div>
         <svg
           xmlns="http://www.w3.org/2000/svg"

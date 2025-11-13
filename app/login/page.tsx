@@ -46,7 +46,13 @@ export default function LoginPage() {
       <div className="max-w-md w-full space-y-8">
         <div>
           <h2 className="mt-6 text-center text-3xl font-semibold text-text-default">
-            Sign in to <span className="font-molgan text-default">WorkHub</span>
+            Sign in to{" "}
+            <Link
+              href="/"
+              className="font-molgan text-default hover:text-hover transition-colors duration-200"
+            >
+              WorkHub
+            </Link>
           </h2>
           <p className="mt-2 text-center text-sm text-text-muted">
             Or{" "}

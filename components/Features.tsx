@@ -55,7 +55,7 @@ export default function Features() {
             <div className="w-12 h-12 bg-opacity-0 group-hover:bg-linear-to-br group-hover:from-money group-hover:to-success/80  group-hover:scale-105 transition-all duration-200 rounded-full flex items-center justify-center mb-5 self-center">
               {card.icon}
             </div>
-            <h3 className="text-xl font-semibold text-text-default mb-3 self-center">
+            <h3 className="text-xl font-semibold text-hover mb-3 self-center">
               {card.title}
             </h3>
             <p className="text-text-muted mb-3">{card.desc}</p>

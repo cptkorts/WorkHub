@@ -1,5 +1,21 @@
 @import "tailwindcss";
 
+/* Smooth scrolling for anchor links */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom text selection colors */
+::selection {
+  background-color: #a8c686; /* money color */
+  color: #ffffff;
+}
+
+::-moz-selection {
+  background-color: #a8c686; /* money color */
+  color: #ffffff;
+}
+
 /* React Calendar custom styles */
 .react-calendar {
   width: 100% !important;
