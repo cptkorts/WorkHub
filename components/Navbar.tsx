@@ -70,22 +70,30 @@ export default function Navbar() {
       </div>
 
       {/* User Section */}
-      <div className="border-t border-gray-200 p-4 space-y-2 flex flex-col items-start">
+      <div className="border-t border-gray-200 p-4 space-y-3 flex flex-col">
         <Link
           href="/dashboard"
-          className="flex items-center gap-3 px-4 py-3 rounded-lg text-accent/80 hover:text-accent font-semibold transition-colors duration-200"
+          className="group flex items-center gap-3 px-4 py-3 rounded-lg text-accent/80 hover:text-accent hover:bg-accent/10 font-semibold transition-all duration-200 w-full"
         >
-          <User size={20} />
-          {session?.user?.name}
+          <User
+            size={21}
+            className="group-hover:scale-110 text-accent/65 group-hover:text-accent transition-all duration-200"
+          />
+          <span className="text-accent/65 group-hover:text-accent font-semibold transition-colors duration-200">
+            {session?.user?.name}
+          </span>
         </Link>
         <button
           onClick={() => signOut({ callbackUrl: "/" })}
-          className="group flex items-center px-3 py-2 aspect-square border-2 hover:border-error rounded-full cursor-pointer text-transparent font-semibold transition-colors duration-200"
+          className="group flex items-center gap-3 px-4 py-3 rounded-lg cursor-pointer w-full hover:bg-error/10 transition-all duration-200"
         >
           <Power
             size={20}
-            className="group-hover:scale-115 text-error/80 group-hover:text-error transition-all duration-200"
+            className="group-hover:scale-110 text-error/80 group-hover:text-error transition-all duration-200"
           />
+          <span className="text-error/80 group-hover:text-error font-semibold transition-colors duration-200">
+            Log Out
+          </span>
         </button>
       </div>
     </nav>
