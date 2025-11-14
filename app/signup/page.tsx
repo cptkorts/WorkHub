@@ -6,6 +6,9 @@ import Link from "next/link";
 import { signIn } from "next-auth/react";
 import { signup } from "@/lib/auth";
 
+// Note: Client components can't export metadata directly.
+// Metadata is set in the parent layout or via a wrapper server component.
+
 export default function SignupPage() {
   const router = useRouter();
   const [formData, setFormData] = useState({

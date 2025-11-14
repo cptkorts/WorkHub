@@ -14,6 +14,13 @@ export const metadata: Metadata = {
   title: "WorkHub - Manage Your Business",
   description:
     "Client management, appointments, and invoices for freelancers and small businesses",
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/favicon.svg", type: "image/svg+xml" },
+    ],
+    apple: "/apple-touch-icon.png",
+  },
 };
 
 export default function RootLayout({

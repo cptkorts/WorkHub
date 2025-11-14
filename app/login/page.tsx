@@ -5,6 +5,9 @@ import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
+// Note: Client components can't export metadata directly.
+// Metadata is set in the parent layout or via a wrapper server component.
+
 export default function LoginPage() {
   const router = useRouter();
   const [email, setEmail] = useState("");

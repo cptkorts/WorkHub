@@ -5,6 +5,20 @@ import Hero from "@/components/Hero";
 import Problem from "@/components/Problem";
 import Showcase from "@/components/Showcase";
 import Testimonials from "@/components/Testimonials";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "WorkHub | Manage Clients, Appointments & Invoices",
+  description:
+    "One dashboard for freelancers and small businesses. Manage clients, schedule appointments, send invoices, and track your business growth all in one place.",
+  keywords: [
+    "freelancer management",
+    "client management",
+    "appointment scheduling",
+    "invoice generator",
+    "small business software",
+  ],
+};
 
 export default function Home() {
   return (

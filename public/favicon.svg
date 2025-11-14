@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Background circle -->
+  <circle cx="50" cy="50" r="50" fill="#f9faf7"/>
+  
+  <!-- Scaled and centered content -->
+  <g transform="translate(50 50) scale(1.18) translate(-50 -50)">
+    <!-- Chart line with growth, dip, and recovery -->
+    <g stroke="#6b8e23" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none">
+      <!-- Chart line: starts bottom-left, rises, dips down, then recovers to top-right -->
+      <polyline points="20,65 35,45 50,60 75,25"/>
+      
+      <!-- Arrow head aligned to the final segment direction -->
+      <line x1="74.1" y1="36.6" x2="75" y2="25"/>
+      <line x1="64.3" y1="29.6" x2="75" y2="25"/>
+    </g>
+  </g>
+</svg>
