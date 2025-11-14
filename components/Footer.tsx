@@ -36,7 +36,7 @@ export default function Footer() {
                 >
                   Copyright
                 </a>
-                <div className="mx-2 group-hover:border-b group-hover:border-border"></div>
+                <div className="mx-2 group-hover:border-b group-hover:border-default"></div>
               </div>
             </div>
           </div>

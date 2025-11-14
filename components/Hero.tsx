@@ -4,22 +4,22 @@ import Link from "next/link";
 
 export default function Hero() {
   return (
-    <section className="h-screen w-full flex flex-col">
-      <div className="flex-1 flex gap-10 items-center justify-center p-10">
-        <div className="flex flex-col gap-5 w-2/5 justify-center">
+    <section className="min-h-screen xl:h-screen w-full flex flex-col">
+      <div className="flex-1 flex flex-col xl:flex-row gap-5 xl:gap-10 items-center justify-center p-5 xl:p-10">
+        <div className="flex flex-col gap-5 xl:w-2/5 justify-center">
           <div className="flex flex-col gap-3 justify-center">
-            <h1 className="text-5xl font-extrabold font-molgan text-text-default mb-4">
+            <h1 className="text-3xl xl:text-5xl font-extrabold font-molgan text-text-default mb-4 text-center xl:text-left">
               WorkHub
             </h1>
-            <h2 className="text-2xl font-semibold text-hover mb-6">
+            <h2 className="text-xl xl:text-2xl font-semibold text-hover mb-6 text-center xl:text-left ">
               One dashboard. Every client. Every invoice.
             </h2>
-            <h4 className="text-base text-success leading-relaxed max-w-md">
+            <h4 className="text-base text-success leading-relaxed max-w-md text-center xl:text-left">
               WorkHub brings clients, appointments, and invoices together, so
               you can focus on what you do best.
             </h4>
           </div>
-          <div className="flex gap-6">
+          <div className="flex flex-col xl:flex-row gap-4 xl:gap-6 ">
             <Link
               href="/signup"
               className="relative lg:w-36 lg:h-14 md:w-28 md:h-10 w-28 h-12 shadow-md hover:shadow-lg transition-all duration-400 bg-success border-2 border-money/80 text-white font-semibold rounded-lg hover:rounded-xl overflow-hidden group flex items-center justify-center text-sm sm:text-base"
