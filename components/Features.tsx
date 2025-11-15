@@ -13,7 +13,7 @@ export default function Features() {
         From clients to cash flow, WorkHub keeps your freelance business running
         smoothly in one place.
       </p>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-5xl mx-auto">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 xl:gap-10 max-w-5xl mx-auto">
         {[
           {
             icon: (
@@ -50,7 +50,7 @@ export default function Features() {
         ].map((card, i) => (
           <div
             key={i}
-            className="group flex flex-col bg-white border border-border rounded-xl p-8 shadow-md hover:shadow-lg transition-all hover:-translate-y-0.5 duration-200"
+            className="group flex flex-col bg-white border border-border rounded-xl p-6 xl:p-8 shadow-md hover:shadow-lg transition-all hover:-translate-y-0.5 duration-200"
           >
             <div className="w-12 h-12 bg-opacity-0 group-hover:bg-linear-to-br group-hover:from-money group-hover:to-success/80  group-hover:scale-105 transition-all duration-200 rounded-xl flex items-center justify-center mb-5 self-center">
               {card.icon}

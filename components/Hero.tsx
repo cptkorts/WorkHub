@@ -4,9 +4,9 @@ import Link from "next/link";
 
 export default function Hero() {
   return (
-    <section className="min-h-screen xl:h-screen w-full flex flex-col">
-      <div className="flex-1 flex flex-col xl:flex-row gap-5 xl:gap-10 items-center justify-center p-5 xl:p-10">
-        <div className="flex flex-col gap-5 xl:w-2/5 justify-center">
+    <section className="h-screen xl:h-screen w-full flex flex-col">
+      <div className="flex-1 flex flex-col xl:flex-row gap-8 xl:gap-10 items-center justify-center p-5 xl:p-10">
+        <div className="flex flex-col gap-8 xl:gap-5 xl:w-2/5 justify-center">
           <div className="flex flex-col gap-3 justify-center">
             <h1 className="text-3xl xl:text-5xl font-extrabold font-molgan text-text-default mb-4 text-center xl:text-left">
               WorkHub
@@ -19,7 +19,7 @@ export default function Hero() {
               you can focus on what you do best.
             </h4>
           </div>
-          <div className="flex flex-col xl:flex-row gap-4 xl:gap-6 ">
+          <div className="flex flex-col xl:flex-row gap-4 xl:gap-6 items-center justify-center xl:justify-start">
             <Link
               href="/signup"
               className="relative lg:w-36 lg:h-14 md:w-28 md:h-10 w-28 h-12 shadow-md hover:shadow-lg transition-all duration-400 bg-success border-2 border-money/80 text-white font-semibold rounded-lg hover:rounded-xl overflow-hidden group flex items-center justify-center text-sm sm:text-base"
@@ -37,12 +37,12 @@ export default function Hero() {
             </Link>
             <Link
               href="/#workhub"
-              className="relative group py-3 px-6 text-default flex items-center justify-center"
+              className="relative group py-3 px-6 text-default flex items-center justify-center xl:py-3 xl:px-6"
             >
-              <span className="absolute bottom-0 left-0 h-0.5 w-0 bg-success group-hover:w-full transition-all duration-300"></span>
+              <span className="absolute bottom-0 left-0 h-0.5 w-0 bg-success group-hover:w-full transition-all duration-300 hidden xl:block"></span>
               <span className="flex gap-2 items-center">
                 Learn More
-                <ChevronDown className="opacity-0 -translate-y-2 group-hover:opacity-100 group-hover:translate-y-0.5 transition-all duration-300" />
+                <ChevronDown className="hidden xl:block opacity-0 -translate-y-2 group-hover:opacity-100 group-hover:translate-y-0.5 transition-all duration-300" />
               </span>
             </Link>
           </div>
@@ -62,11 +62,11 @@ export default function Hero() {
           <div className="relative mx-auto bg-money rounded-b-xl h-8 max-w-[83px] md:h-18 mx-w-[152px]"></div>
         </div>
       </div>
-      <div className="mt-auto">
+      <div className="mt-auto leading-0">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 1440 320"
-          className="w-full h-24 md:h-32"
+          className="w-full h-24 md:h-32 block align-bottom"
           preserveAspectRatio="none"
         >
           <path

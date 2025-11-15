@@ -23,7 +23,7 @@ const testimonials = [
     role: "Freelance Designer",
     quote: "It's my whole business in a dashboard.",
     testimonial:
-      "Invoices, clients, analytics — everything just works together. I can finally focus on design instead of paperwork. I'd recommend WorkHub to any freelancer.",
+      "Invoices, clients, analytics — everything just works together. I can finally focus on design instead of paperwork. I'd recommend WorkHub to any freelancer. Higly recommended!",
   },
 ];
 
@@ -54,7 +54,7 @@ export default function Testimonials() {
         </p>
 
         {/* Testimonial Card */}
-        <div className="relative group bg-money/30 border border-border rounded-2xl p-8 md:p-12 shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 min-h-[400px] flex flex-col justify-between">
+        <div className="relative group bg-money/30 border border-border rounded-2xl p-8 md:p-12 shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 min-h-auto flex flex-col justify-between">
           {/* Stars */}
           <div className="flex gap-1 mb-3 justify-center">
             {[...Array(5)].map((_, i) => (

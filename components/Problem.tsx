@@ -7,11 +7,11 @@ export default function Problem() {
       id="workhub"
       className="min-h-screen w-full flex flex-col border-b border-border"
     >
-      <div>
+      <div className="leading-0">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 1440 320"
-          className="w-full h-24 md:h-32"
+          className="w-full h-24 md:h-32 block align-bottom"
           preserveAspectRatio="none"
         >
           <path
@@ -21,17 +21,17 @@ export default function Problem() {
           ></path>
         </svg>
       </div>
-      <div className="flex gap-10 items-center justify-center p-10">
-        <div className="w-1/2">
+      <div className="flex flex-col xl:flex-row gap-10 items-center justify-center p-5 xl:p-10">
+        <div className="xl:w-1/2">
           <Image
             src="/images/Financial data-amico.svg"
             alt="Financial data illustration"
             width={600}
             height={600}
-            className="w-[500px] h-[500px]"
+            className="w-[300px] h-[300px] xl:w-[500px] xl:h-[500px]"
           />
         </div>
-        <div className="flex flex-col w-1/2 gap-3">
+        <div className="flex flex-col px-3 xl:px-0 gap-3">
           <h3 className="text-2xl font-semibold text-default tracking-wide mb-4">
             Running your business shouldn&apos;t feel this chaotic.
           </h3>
@@ -40,7 +40,7 @@ export default function Problem() {
             photograph, build. But somehow, your day ends buried in
             spreadsheets, messages, and overdue reminders.
           </h4>
-          <ul className="flex flex-col gap-4 mx-auto mb-6">
+          <ul className="flex flex-col gap-4 mx-auto mb-6 px-3 xl:px-0">
             <li className="text-money font-semibold flex gap-3 items-center">
               <Hourglass className="h-5 w-5 text-default" />
               <span className="flex-1">
