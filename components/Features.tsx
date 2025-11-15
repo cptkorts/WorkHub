@@ -52,7 +52,7 @@ export default function Features() {
             key={i}
             className="group flex flex-col bg-white border border-border rounded-xl p-8 shadow-md hover:shadow-lg transition-all hover:-translate-y-0.5 duration-200"
           >
-            <div className="w-12 h-12 bg-opacity-0 group-hover:bg-linear-to-br group-hover:from-money group-hover:to-success/80  group-hover:scale-105 transition-all duration-200 rounded-full flex items-center justify-center mb-5 self-center">
+            <div className="w-12 h-12 bg-opacity-0 group-hover:bg-linear-to-br group-hover:from-money group-hover:to-success/80  group-hover:scale-105 transition-all duration-200 rounded-xl flex items-center justify-center mb-5 self-center">
               {card.icon}
             </div>
             <h3 className="text-xl font-semibold text-hover mb-3 self-center">
