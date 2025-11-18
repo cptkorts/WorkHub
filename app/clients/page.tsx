@@ -78,7 +78,7 @@ export default function ClientsPage() {
       <TopBar />
 
       {/* Main Content */}
-      <main className="xl:flex-1 xl:ml-64 py-6 px-8 mb-20 xl:0">
+      <main className="xl:flex-1 xl:ml-64 py-6 px-8">
         <div>
           {/* Page Header */}
           <div className="flex flex-col xl:flex-row gap-3 xl:gap-0 xl:justify-between items-center mb-6">
@@ -177,7 +177,7 @@ export default function ClientsPage() {
           ) : (
             <>
               {/* Mobile Card View */}
-              <div className="xl:hidden space-y-4">
+              <div className="xl:hidden space-y-4 mb-20 xl:mb-0">
                 {filteredClients.map((client) => (
                   <div
                     key={client._id}

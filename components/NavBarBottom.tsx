@@ -26,7 +26,9 @@ export default function NavBarBottom() {
           <Link
             key={link.href}
             href={link.href}
-            className="flex flex-col items-center justify-center gap-1 px-3 py-2 flex-1 group"
+            className={`flex flex-col items-center justify-center gap-1 px-3 py-2 flex-1 group ${
+              pathname === link.href ? "bg-success/20" : ""
+            } transition-colors duration-200`}
           >
             <Icon
               size={22}

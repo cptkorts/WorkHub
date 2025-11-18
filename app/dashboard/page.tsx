@@ -44,13 +44,6 @@ export default function ProfilePage() {
     website: "",
   });
 
-  // Security State
-  const [passwordData, setPasswordData] = useState({
-    currentPassword: "",
-    newPassword: "",
-    confirmPassword: "",
-  });
-
   useEffect(() => {
     if (status === "unauthenticated") {
       router.push("/login");
@@ -157,20 +150,6 @@ export default function ProfilePage() {
     }
   };
 
-  const handleChangePassword = async () => {
-    // TODO: Implement password change
-  };
-
-  const handleDeleteAccount = async () => {
-    if (
-      confirm(
-        "Are you sure you want to delete your account? This action cannot be undone."
-      )
-    ) {
-      // TODO: Implement account deletion
-    }
-  };
-
   if (status === "loading") {
     return <LoadingSpinner />;
   }
@@ -180,13 +159,13 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="min-h-screen bg-background flex">
+    <div className="xl:min-h-screen bg-background xl:flex">
       <Navbar />
       <NavBarBottom />
       <TopBar />
 
       {/* Main Content */}
-      <main className="flex-1 ml-60 py-6 px-8">
+      <main className="xl:flex-1 xl:ml-64 py-6 px-8 mb-20 xl:mb-0">
         <div className="mb-6">
           <h1 className="text-3xl font-bold text-text-default">
             Profile Settings
@@ -305,17 +284,6 @@ export default function ProfilePage() {
                 >
                   <Building2 size={18} />
                   Business Info
-                </button>
-                <button
-                  onClick={() => setActiveTab("security")}
-                  className={`flex items-center gap-2 px-6 py-4 font-medium transition-colors ${
-                    activeTab === "security"
-                      ? "text-accent border-b-2 border-accent"
-                      : "text-text-muted hover:text-default"
-                  }`}
-                >
-                  <Lock size={18} />
-                  Security
                 </button>
               </div>
             </div>
@@ -486,117 +454,6 @@ export default function ProfilePage() {
                       </button>
                     </div>
                   )}
-                </div>
-              )}
-
-              {/* Security Tab */}
-              {activeTab === "security" && (
-                <div className="space-y-6">
-                  <h3 className="text-xl font-semibold text-dark-2 mb-4">
-                    Security Settings
-                  </h3>
-
-                  {session.user.provider === "credentials" ? (
-                    <>
-                      <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
-                        <p className="text-sm text-blue-800">
-                          Change your password to keep your account secure
-                        </p>
-                      </div>
-
-                      <div>
-                        <label className="block text-sm font-medium text-default mb-2">
-                          Current Password
-                        </label>
-                        <input
-                          type="password"
-                          value={passwordData.currentPassword}
-                          onChange={(e) =>
-                            setPasswordData({
-                              ...passwordData,
-                              currentPassword: e.target.value,
-                            })
-                          }
-                          className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent"
-                          placeholder="••••••••"
-                        />
-                      </div>
-
-                      <div>
-                        <label className="block text-sm font-medium text-default mb-2">
-                          New Password
-                        </label>
-                        <input
-                          type="password"
-                          value={passwordData.newPassword}
-                          onChange={(e) =>
-                            setPasswordData({
-                              ...passwordData,
-                              newPassword: e.target.value,
-                            })
-                          }
-                          className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent"
-                          placeholder="••••••••"
-                        />
-                      </div>
-
-                      <div>
-                        <label className="block text-sm font-medium text-default mb-2">
-                          Confirm New Password
-                        </label>
-                        <input
-                          type="password"
-                          value={passwordData.confirmPassword}
-                          onChange={(e) =>
-                            setPasswordData({
-                              ...passwordData,
-                              confirmPassword: e.target.value,
-                            })
-                          }
-                          className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent"
-                          placeholder="••••••••"
-                        />
-                      </div>
-
-                      <button
-                        onClick={handleChangePassword}
-                        className="px-6 py-2 bg-accent text-white rounded-lg hover:bg-accent/80 transition-colors cursor-pointer font-medium"
-                      >
-                        Change Password
-                      </button>
-                    </>
-                  ) : (
-                    <div className="bg-gray-50 border border-border rounded-lg p-6 text-center">
-                      <Lock
-                        size={48}
-                        className="mx-auto text-text-muted mb-4"
-                      />
-                      <p className="text-default mb-2">OAuth Account</p>
-                      <p className="text-sm text-text-muted">
-                        You&apos;re signed in with {session.user.provider}.
-                        Password management is handled by your OAuth provider.
-                      </p>
-                    </div>
-                  )}
-
-                  {/* Danger Zone */}
-                  <div className="border-t border-border pt-6 mt-8">
-                    <h4 className="text-lg font-semibold text-error mb-4">
-                      Danger Zone
-                    </h4>
-                    <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-                      <p className="text-sm text-red-800 mb-4">
-                        Once you delete your account, there is no going back.
-                        Please be certain.
-                      </p>
-                      <button
-                        onClick={handleDeleteAccount}
-                        className="px-6 py-2 bg-error text-white rounded-lg hover:bg-error/80 transition-colors cursor-pointer font-medium"
-                      >
-                        Delete Account
-                      </button>
-                    </div>
-                  </div>
                 </div>
               )}
             </div>

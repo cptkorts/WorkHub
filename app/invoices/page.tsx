@@ -130,7 +130,7 @@ export default function InvoicesPage() {
       <TopBar />
 
       {/* Main Content */}
-      <main className="xl:flex-1 xl:ml-64 py-6 px-8 mb-20 xl:mb-0">
+      <main className="xl:flex-1 xl:ml-64 py-6 px-8">
         <div>
           {/* Page Header */}
           <div className="flex flex-col xl:flex-row xl:justify-between gap-3 xl:gap-0 items-center mb-6">
@@ -236,7 +236,7 @@ export default function InvoicesPage() {
 
           {/* Invoices Grid */}
           {filteredInvoices.length === 0 ? (
-            <div className="bg-muted/10 rounded-lg shadow-sm p-12 flex flex-col items-center">
+            <div className="bg-muted/10 rounded-lg shadow-sm p-12 flex flex-col items-center mb-20 xl:mb-0">
               <div className="text-6xl mb-4 text-default">
                 <FilePlus size={80} />
               </div>
