@@ -28,7 +28,7 @@ export default function NavBarBottom() {
             href={link.href}
             className={`flex flex-col items-center justify-center gap-1 px-3 py-2 flex-1 group ${
               pathname === link.href ? "bg-success/20" : ""
-            } transition-colors duration-200`}
+            } rounded-lg transition-colors duration-200`}
           >
             <Icon
               size={22}
