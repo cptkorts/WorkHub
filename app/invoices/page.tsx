@@ -5,6 +5,8 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
+import NavBarBottom from "@/components/NavBarBottom";
+import TopBar from "@/components/TopBar";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import { FilePlus, Plus } from "lucide-react";
 
@@ -124,6 +126,8 @@ export default function InvoicesPage() {
   return (
     <div className="min-h-screen bg-background flex">
       <Navbar />
+      <NavBarBottom />
+      <TopBar />
 
       {/* Main Content */}
       <main className="flex-1 ml-64 py-6 px-8">

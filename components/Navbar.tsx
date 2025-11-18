@@ -23,7 +23,7 @@ export default function Navbar() {
   ];
 
   return (
-    <nav className="fixed left-0 top-0 h-screen w-56 bg-background border-r border-border flex flex-col">
+    <nav className="hidden xl:flex fixed left-0 top-0 h-screen w-56 bg-background border-r border-border flex-col">
       {/* Logo */}
       <div className="p-6 border-b border-border">
         <Link

@@ -4,10 +4,14 @@ import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
+import NavBarBottom from "@/components/NavBarBottom";
+import TopBar from "@/components/TopBar";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import {
   LineChart,
   Line,
+  BarChart,
+  Bar,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -89,11 +93,13 @@ export default function AnalyticsPage() {
   });
 
   return (
-    <div className="min-h-screen bg-background flex">
+    <div className="min-h-screen bg-background xl:flex">
       <Navbar />
+      <NavBarBottom />
+      <TopBar />
 
       {/* Main Content */}
-      <main className="flex-1 ml-64 py-6 px-8">
+      <main className="xl:flex-1 xl:ml-64 py-6 px-8">
         <div>
           {/* Page Header */}
           <div className="mb-6">
@@ -192,66 +198,139 @@ export default function AnalyticsPage() {
           </div>
 
           {/* Monthly Trends Chart */}
-          <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
-            <h2 className="text-xl font-bold text-gray-900 mb-6">
+          <div className="bg-white rounded-lg shadow-sm xl:p-6 p-4 mb-8">
+            <h2 className="text-lg xl:text-xl font-bold text-gray-900 mb-4 xl:mb-6">
               Six-Month Trends
             </h2>
-            <ResponsiveContainer width="100%" height={400}>
-              <LineChart data={analytics.monthlyData}>
-                <CartesianGrid stroke="#eee" strokeDasharray="5 5" />
-                <XAxis dataKey="month" />
-                <YAxis yAxisId="left" />
-                <YAxis yAxisId="right" orientation="right" />
-                <Tooltip
-                  contentStyle={{
-                    backgroundColor: "#fff",
-                    border: "1px solid #e5e7eb",
-                    borderRadius: "8px",
-                  }}
-                  formatter={(value: number, name: string) => {
-                    if (name === "Revenue") {
-                      return [`$${value.toFixed(2)}`, name];
-                    }
-                    return [value, name];
-                  }}
-                />
-                <Legend />
-                <Line
-                  yAxisId="left"
-                  type="monotone"
-                  dataKey="revenue"
-                  stroke="#a8c686"
-                  strokeWidth={2}
-                  name="Revenue"
-                  dot={{ fill: "#a8c686", r: 4 }}
-                  activeDot={{ r: 6 }}
-                />
-                <Line
-                  yAxisId="right"
-                  type="monotone"
-                  dataKey="clients"
-                  stroke="#cdaa5f"
-                  strokeWidth={2}
-                  name="Clients"
-                  dot={{ fill: "#cdaa5f", r: 4 }}
-                  activeDot={{ r: 6 }}
-                />
-                <Line
-                  yAxisId="right"
-                  type="monotone"
-                  dataKey="appointments"
-                  stroke="#3b82f6"
-                  strokeWidth={2}
-                  name="Appointments"
-                  dot={{ fill: "#3b82f6", r: 4 }}
-                  activeDot={{ r: 6 }}
-                />
-              </LineChart>
-            </ResponsiveContainer>
+
+            {/* Mobile Bar Chart */}
+            <div className="xl:hidden">
+              <ResponsiveContainer width="100%" height={350}>
+                <BarChart
+                  data={analytics.monthlyData}
+                  margin={{ top: 5, right: 30, left: -10, bottom: 5 }}
+                >
+                  <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                  <XAxis
+                    dataKey="month"
+                    tick={{ fontSize: 10 }}
+                    angle={-45}
+                    textAnchor="end"
+                    height={70}
+                  />
+                  <YAxis yAxisId="left" tick={{ fontSize: 10 }} width={40} />
+                  <YAxis
+                    yAxisId="right"
+                    orientation="right"
+                    tick={{ fontSize: 10 }}
+                    width={35}
+                  />
+                  <Tooltip
+                    contentStyle={{
+                      backgroundColor: "#fff",
+                      border: "1px solid #e5e7eb",
+                      borderRadius: "8px",
+                      fontSize: "11px",
+                    }}
+                    formatter={(value: number, name: string) => {
+                      if (name === "Revenue") {
+                        return [`$${value.toFixed(2)}`, name];
+                      }
+                      return [value, name];
+                    }}
+                  />
+                  <Legend wrapperStyle={{ fontSize: "11px" }} iconSize={10} />
+                  <Bar
+                    yAxisId="left"
+                    dataKey="revenue"
+                    fill="#a8c686"
+                    name="Revenue"
+                    radius={[4, 4, 0, 0]}
+                  />
+                  <Bar
+                    yAxisId="right"
+                    dataKey="clients"
+                    fill="#cdaa5f"
+                    name="Clients"
+                    radius={[4, 4, 0, 0]}
+                  />
+                  <Bar
+                    yAxisId="right"
+                    dataKey="appointments"
+                    fill="#3b82f6"
+                    name="Appointments"
+                    radius={[4, 4, 0, 0]}
+                  />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+
+            {/* Desktop Line Chart */}
+            <div className="hidden xl:block">
+              <ResponsiveContainer width="100%" height={400}>
+                <LineChart
+                  data={analytics.monthlyData}
+                  margin={{ top: 5, right: 30, left: 0, bottom: 5 }}
+                >
+                  <CartesianGrid stroke="#eee" strokeDasharray="5 5" />
+                  <XAxis dataKey="month" tick={{ fontSize: 12 }} />
+                  <YAxis yAxisId="left" tick={{ fontSize: 12 }} />
+                  <YAxis
+                    yAxisId="right"
+                    orientation="right"
+                    tick={{ fontSize: 12 }}
+                  />
+                  <Tooltip
+                    contentStyle={{
+                      backgroundColor: "#fff",
+                      border: "1px solid #e5e7eb",
+                      borderRadius: "8px",
+                    }}
+                    formatter={(value: number, name: string) => {
+                      if (name === "Revenue") {
+                        return [`$${value.toFixed(2)}`, name];
+                      }
+                      return [value, name];
+                    }}
+                  />
+                  <Legend />
+                  <Line
+                    yAxisId="left"
+                    type="monotone"
+                    dataKey="revenue"
+                    stroke="#a8c686"
+                    strokeWidth={2}
+                    name="Revenue"
+                    dot={{ fill: "#a8c686", r: 4 }}
+                    activeDot={{ r: 6 }}
+                  />
+                  <Line
+                    yAxisId="right"
+                    type="monotone"
+                    dataKey="clients"
+                    stroke="#cdaa5f"
+                    strokeWidth={2}
+                    name="Clients"
+                    dot={{ fill: "#cdaa5f", r: 4 }}
+                    activeDot={{ r: 6 }}
+                  />
+                  <Line
+                    yAxisId="right"
+                    type="monotone"
+                    dataKey="appointments"
+                    stroke="#3b82f6"
+                    strokeWidth={2}
+                    name="Appointments"
+                    dot={{ fill: "#3b82f6", r: 4 }}
+                    activeDot={{ r: 6 }}
+                  />
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
           </div>
 
           {/* Secondary Stats */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-20 xl:mb-0">
             {/* Invoice Breakdown */}
             <div className="bg-white rounded-lg shadow-sm p-6">
               <h3 className="text-lg font-semibold text-default mb-4">
@@ -295,7 +374,7 @@ export default function AnalyticsPage() {
             </div>
 
             {/* Appointment Breakdown */}
-            <div className="bg-white rounded-lg shadow-sm p-6">
+            <div className="bg-white rounded-lg shadow-sm p-6 ">
               <h3 className="text-lg font-semibold text-default mb-4">
                 Appointment Status
               </h3>

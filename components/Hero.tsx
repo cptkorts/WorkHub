@@ -8,7 +8,7 @@ export default function Hero() {
       <div className="flex-1 flex flex-col xl:flex-row gap-8 xl:gap-10 items-center justify-center p-5 xl:p-10">
         <div className="flex flex-col gap-8 xl:gap-5 xl:w-2/5 justify-center">
           <div className="flex flex-col gap-3 justify-center">
-            <h1 className="text-3xl xl:text-5xl font-extrabold font-molgan text-text-default mb-4 text-center xl:text-left">
+            <h1 className="text-4xl xl:text-5xl font-extrabold font-molgan text-text-default mb-4 text-center xl:text-left">
               WorkHub
             </h1>
             <h2 className="text-xl xl:text-2xl font-semibold text-hover mb-6 text-center xl:text-left ">
@@ -22,7 +22,7 @@ export default function Hero() {
           <div className="flex flex-col xl:flex-row gap-4 xl:gap-6 items-center justify-center xl:justify-start">
             <Link
               href="/signup"
-              className="relative lg:w-36 lg:h-14 md:w-28 md:h-10 w-28 h-12 shadow-md hover:shadow-lg transition-all duration-400 bg-success border-2 border-money/80 text-white font-semibold rounded-lg hover:rounded-xl overflow-hidden group flex items-center justify-center text-sm sm:text-base"
+              className="relative lg:w-36 lg:h-14 md:w-28 md:h-10 w-36 h-12 shadow-md hover:shadow-lg transition-all duration-400 bg-success border-2 border-money/80 text-white font-semibold rounded-lg hover:rounded-xl overflow-hidden group flex items-center justify-center text-sm sm:text-base"
             >
               <span className="hidden lg:flex absolute inset-0 items-center justify-center transition-transform duration-400 group-hover:-translate-y-full">
                 Get Started
