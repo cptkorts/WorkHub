@@ -324,7 +324,7 @@ export default function EditAppointmentModal({
                 disabled={loading}
                 className="px-4 py-2 bg-success text-white rounded-md hover:bg-default transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
               >
-                {loading ? "Saving..." : "Save Changes"}
+                {loading ? "Saving..." : "Save"}
               </button>
             </div>
           </form>

@@ -208,7 +208,7 @@ export default function AnalyticsPage() {
               <ResponsiveContainer width="100%" height={350}>
                 <BarChart
                   data={analytics.monthlyData}
-                  margin={{ top: 5, right: 30, left: -10, bottom: 5 }}
+                  margin={{ top: 5, right: 20, left: 10, bottom: 5 }}
                 >
                   <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
                   <XAxis
@@ -218,12 +218,12 @@ export default function AnalyticsPage() {
                     textAnchor="end"
                     height={70}
                   />
-                  <YAxis yAxisId="left" tick={{ fontSize: 10 }} width={40} />
+                  <YAxis yAxisId="left" tick={{ fontSize: 10 }} width={45} />
                   <YAxis
                     yAxisId="right"
                     orientation="right"
                     tick={{ fontSize: 10 }}
-                    width={35}
+                    width={40}
                   />
                   <Tooltip
                     contentStyle={{
@@ -266,7 +266,7 @@ export default function AnalyticsPage() {
             </div>
 
             {/* Desktop Line Chart */}
-            <div className="hidden xl:block">
+            <div className="hidden xl:block ">
               <ResponsiveContainer width="100%" height={400}>
                 <LineChart
                   data={analytics.monthlyData}

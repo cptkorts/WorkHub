@@ -162,18 +162,20 @@ export default function AppointmentsPage() {
       : getAppointmentsForWeek(selectedDate);
 
   return (
-    <div className="min-h-screen bg-background flex">
+    <div className="min-h-screen bg-background xl:flex">
       <Navbar />
       <NavBarBottom />
       <TopBar />
 
       {/* Main Content */}
-      <main className="flex-1 ml-64 py-6 px-8">
+      <main className="xl:flex-1 xl:ml-60 py-6 px-8 mb-20 xl:mb-0">
         <div>
           {/* Page Header */}
-          <div className="flex justify-between items-center mb-6">
+          <div className="flex flex-col xl:flex-row xl:justify-between gap-5 xl:gap-0 items-center mb-6">
             <div>
-              <h1 className="text-3xl font-bold text-default">Appointments</h1>
+              <h1 className="text-3xl font-bold text-default text-center xl:text-left">
+                Appointments
+              </h1>
               <p className="text-light mt-1">
                 Manage your appointment schedule
               </p>
@@ -190,7 +192,7 @@ export default function AppointmentsPage() {
           </div>
 
           {/* View Mode Toggle */}
-          <div className="mb-6 flex gap-2">
+          <div className="mb-6 flex gap-2 justify-center xl:justify-start">
             <button
               onClick={() => setViewMode("daily")}
               className={`px-4 py-2 rounded-lg font-medium transition-colors ${
@@ -215,7 +217,7 @@ export default function AppointmentsPage() {
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {/* Calendar */}
-            <div className="lg:col-span-1">
+            <div className="lg:col-span-1 order-1">
               <div className="bg-white rounded-lg shadow-sm p-4">
                 <Calendar
                   onChange={(value) => setSelectedDate(value as Date)}
@@ -224,43 +226,10 @@ export default function AppointmentsPage() {
                   className="border-0 w-full"
                 />
               </div>
-
-              {/* Stats */}
-              <div className="bg-white rounded-lg shadow-xs hover:shadow-sm transition-all duration-200 p-6 mt-6">
-                <h3 className="text-lg font-semibold mb-4 text-default">
-                  Quick Stats
-                </h3>
-                <div className="space-y-3">
-                  <div className="flex justify-between">
-                    <span className="text-accent">Total</span>
-                    <span className="font-semibold text-text-default/80">
-                      {appointments.length}
-                    </span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-accent">Upcoming</span>
-                    <span className="font-semibold text-blue-600">
-                      {
-                        appointments.filter((a) => a.status === "upcoming")
-                          .length
-                      }
-                    </span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-accent">Completed</span>
-                    <span className="font-semibold text-green-600">
-                      {
-                        appointments.filter((a) => a.status === "completed")
-                          .length
-                      }
-                    </span>
-                  </div>
-                </div>
-              </div>
             </div>
 
             {/* Appointments List */}
-            <div className="lg:col-span-2">
+            <div className="lg:col-span-2 lg:row-span-2 order-2">
               <div className="bg-white rounded-lg shadow-xs hover:shadow-sm transition-all duration-200 p-6">
                 <h2 className="text-xl font-semibold mb-4">
                   {viewMode === "daily" ? (
@@ -396,6 +365,41 @@ export default function AppointmentsPage() {
                       ))}
                   </div>
                 )}
+              </div>
+            </div>
+
+            {/* Stats */}
+            <div className="lg:col-span-1 order-3 mb-20 xl:mb-0">
+              <div className="bg-white rounded-lg shadow-xs hover:shadow-sm transition-all duration-200 p-6">
+                <h3 className="text-lg font-semibold mb-4 text-default">
+                  Quick Stats
+                </h3>
+                <div className="space-y-3">
+                  <div className="flex justify-between">
+                    <span className="text-accent">Total</span>
+                    <span className="font-semibold text-text-default/80">
+                      {appointments.length}
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-accent">Upcoming</span>
+                    <span className="font-semibold text-blue-600">
+                      {
+                        appointments.filter((a) => a.status === "upcoming")
+                          .length
+                      }
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-accent">Completed</span>
+                    <span className="font-semibold text-green-600">
+                      {
+                        appointments.filter((a) => a.status === "completed")
+                          .length
+                      }
+                    </span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

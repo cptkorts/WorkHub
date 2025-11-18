@@ -334,13 +334,13 @@ export default function InvoiceDetailPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background flex justify-center">
+    <div className="xl:min-h-screen bg-background xl:flex xl:justify-center">
       <Navbar />
       <NavBarBottom />
       <TopBar />
 
       {/* Main Content */}
-      <main className="flex-1 ml-60 py-6 px-8 max-w-5xl">
+      <main className="xl:flex-1 xl:ml-64 py-6 px-8 max-w-5xl mb-20 xl:mb-0">
         {/* Back Button */}
         <Link
           href="/invoices"
@@ -361,7 +361,7 @@ export default function InvoiceDetailPage() {
             <button
               onClick={handleTogglePaidStatus}
               disabled={updating}
-              className={`flex-1 px-6 py-3 rounded-lg font-semibold transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer ${
+              className={`flex-1 px-3 py-2 xl:px-6 xl:py-3 rounded-lg font-semibold transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer ${
                 invoice.status === "paid"
                   ? "bg-error text-white hover:bg-error/80"
                   : "bg-success text-white hover:bg-success/80"
@@ -375,14 +375,14 @@ export default function InvoiceDetailPage() {
             </button>
             <button
               onClick={generatePDF}
-              className="px-6 py-3 bg-accent text-white rounded-lg hover:bg-accent/80 transition-colors duration-200 cursor-pointer font-semibold"
+              className="px-3 py-2 xl:px-6 xl:py-3 bg-accent text-white rounded-lg hover:bg-accent/80 transition-colors duration-200 cursor-pointer font-semibold"
             >
               Download PDF
             </button>
             <button
               onClick={handleDelete}
               disabled={deleting}
-              className="px-6 py-3 bg-error text-white rounded-lg hover:bg-error/80 transition-colors duration-200 cursor-pointer font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-3 py-2 xl:px-6 xl:py-3 bg-error text-white rounded-lg hover:bg-error/80 transition-colors duration-200 cursor-pointer font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {deleting ? "Deleting..." : "Delete"}
             </button>

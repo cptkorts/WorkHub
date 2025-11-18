@@ -72,18 +72,20 @@ export default function ClientsPage() {
   if (!session) return null;
 
   return (
-    <div className="min-h-screen bg-background flex">
+    <div className="min-h-screen bg-background xl:flex">
       <Navbar />
       <NavBarBottom />
       <TopBar />
 
       {/* Main Content */}
-      <main className="flex-1 ml-64 py-6 px-8">
+      <main className="xl:flex-1 xl:ml-64 py-6 px-8 mb-20 xl:0">
         <div>
           {/* Page Header */}
-          <div className="flex justify-between items-center mb-6">
+          <div className="flex flex-col xl:flex-row gap-3 xl:gap-0 xl:justify-between items-center mb-6">
             <div>
-              <h1 className="text-3xl font-bold text-dark-2">Clients</h1>
+              <h1 className="text-3xl font-bold text-dark-2 text-center xl:text-left">
+                Clients
+              </h1>
               <p className="text-text-muted mt-1">
                 Manage your client database
               </p>
@@ -173,69 +175,110 @@ export default function ClientsPage() {
               )}
             </div>
           ) : (
-            <div className="bg-white rounded-lg shadow-xs hover:shadow-sm transition-shadow duration-200 overflow-hidden">
-              <table className="min-w-full divide-y divide-border">
-                <thead className="bg-gray-50">
-                  <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-light uppercase tracking-wider">
-                      Name
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-light uppercase tracking-wider">
-                      Business
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-light uppercase tracking-wider">
-                      Contact
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-light uppercase tracking-wider">
-                      Added
-                    </th>
-                    <th className="px-6 py-3 text-right text-xs font-medium text-light uppercase tracking-wider">
-                      Actions
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="bg-white divide-y divide-border">
-                  {filteredClients.map((client) => (
-                    <tr
-                      key={client._id}
-                      className="hover:bg-gray-50 transition-colors"
-                    >
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm font-medium text-dark-2">
+            <>
+              {/* Mobile Card View */}
+              <div className="xl:hidden space-y-4">
+                {filteredClients.map((client) => (
+                  <div
+                    key={client._id}
+                    className="bg-white rounded-lg shadow-xs hover:shadow-sm transition-shadow duration-200 p-4"
+                  >
+                    <div className="flex justify-between items-start mb-3">
+                      <div>
+                        <h3 className="text-base font-semibold text-hover">
                           {client.fullName}
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm text-dark-2">
-                          {client.businessName || "-"}
-                        </div>
-                      </td>
-                      <td className="px-6 py-4">
-                        <div className="text-sm text-dark-2">
-                          {client.email}
-                        </div>
-                        {client.phone && (
-                          <div className="text-sm text-text-muted">
-                            {client.phone}
-                          </div>
+                        </h3>
+                        {client.businessName && (
+                          <p className="text-sm text-text-muted">
+                            {client.businessName}
+                          </p>
                         )}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-text-muted">
-                        {new Date(client.createdAt).toLocaleDateString()}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                        <Link
-                          href={`/clients/${client._id}`}
-                          className="text-hover hover:text-hover/90 flex items-center justify-end gap-2"
-                        >
-                          View Details <MoveRight size={16} />
-                        </Link>
-                      </td>
+                      </div>
+                      <Link
+                        href={`/clients/${client._id}`}
+                        className="text-hover hover:text-hover/90 flex items-center gap-1 text-sm"
+                      >
+                        View <MoveRight size={14} />
+                      </Link>
+                    </div>
+                    <div className="space-y-1 text-sm">
+                      <p className="text-dark-2">{client.email}</p>
+                      {client.phone && (
+                        <p className="text-text-muted">{client.phone}</p>
+                      )}
+                      <p className="text-text-muted text-xs pt-2">
+                        Added: {new Date(client.createdAt).toLocaleDateString()}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Desktop Table View */}
+              <div className="hidden xl:block bg-white rounded-lg shadow-xs hover:shadow-sm transition-shadow duration-200 overflow-hidden">
+                <table className="min-w-full divide-y divide-border">
+                  <thead className="bg-gray-50">
+                    <tr>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-light uppercase tracking-wider">
+                        Name
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-light uppercase tracking-wider">
+                        Business
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-light uppercase tracking-wider">
+                        Contact
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-light uppercase tracking-wider">
+                        Added
+                      </th>
+                      <th className="px-6 py-3 text-right text-xs font-medium text-light uppercase tracking-wider">
+                        Actions
+                      </th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                  </thead>
+                  <tbody className="bg-white divide-y divide-border">
+                    {filteredClients.map((client) => (
+                      <tr
+                        key={client._id}
+                        className="hover:bg-gray-50 transition-colors"
+                      >
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="text-sm font-medium text-dark-2">
+                            {client.fullName}
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="text-sm text-dark-2">
+                            {client.businessName || "-"}
+                          </div>
+                        </td>
+                        <td className="px-6 py-4">
+                          <div className="text-sm text-dark-2">
+                            {client.email}
+                          </div>
+                          {client.phone && (
+                            <div className="text-sm text-text-muted">
+                              {client.phone}
+                            </div>
+                          )}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-text-muted">
+                          {new Date(client.createdAt).toLocaleDateString()}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                          <Link
+                            href={`/clients/${client._id}`}
+                            className="text-hover hover:text-hover/90 flex items-center justify-end gap-2"
+                          >
+                            View Details <MoveRight size={16} />
+                          </Link>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </>
           )}
         </div>
       </main>

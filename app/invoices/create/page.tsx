@@ -175,13 +175,13 @@ export default function CreateInvoicePage() {
   if (!session) return null;
 
   return (
-    <div className="min-h-screen bg-background flex justify-center">
+    <div className="min-h-screen bg-background xl:flex xl:justify-center">
       <Navbar />
       <NavBarBottom />
       <TopBar />
 
       {/* Main Content */}
-      <main className="flex-1 ml-60 py-6 px-8 max-w-5xl">
+      <main className="xl:flex-1 xl:ml-64 py-6 px-8 max-w-5xl mb-20 xl:mb-0">
         {/* Back Button */}
         <Link
           href="/invoices"
@@ -191,7 +191,7 @@ export default function CreateInvoicePage() {
         </Link>
 
         <div>
-          <div className="bg-white rounded-lg shadow-sm p-8">
+          <div className="bg-white rounded-lg shadow-sm p-4 xl:p-8">
             <h1 className="text-3xl font-bold text-text-default mb-6">
               Create Invoice
             </h1>

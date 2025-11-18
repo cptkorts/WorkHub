@@ -166,13 +166,13 @@ export default function ClientDetailPage() {
   if (!client) return null;
 
   return (
-    <div className="min-h-screen bg-background flex justify-center">
+    <div className="min-h-screen bg-background xl:flex xl:justify-center">
       <Navbar />
       <NavBarBottom />
       <TopBar />
 
       {/* Main Content */}
-      <main className="flex-1 ml-60 py-6 px-8 max-w-5xl">
+      <main className="xl:flex-1 xl:ml-60 py-6 px-8 max-w-5xl mb-20 xl:mb-0">
         {/* Back Button */}
         <Link
           href="/clients"
@@ -333,7 +333,7 @@ export default function ClientDetailPage() {
                 </div>
               </div>
             ) : (
-              <form className="space-y-4">
+              <form className="space-y-4 mb-5 xl:mb-0">
                 <div>
                   <label className="block font-medium text-default mb-1">
                     Full Name

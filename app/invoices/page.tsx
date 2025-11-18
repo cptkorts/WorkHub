@@ -124,18 +124,20 @@ export default function InvoicesPage() {
   const filteredInvoices = getFilteredInvoices();
 
   return (
-    <div className="min-h-screen bg-background flex">
+    <div className="min-h-screen bg-background xl:flex">
       <Navbar />
       <NavBarBottom />
       <TopBar />
 
       {/* Main Content */}
-      <main className="flex-1 ml-64 py-6 px-8">
+      <main className="xl:flex-1 xl:ml-64 py-6 px-8 mb-20 xl:mb-0">
         <div>
           {/* Page Header */}
-          <div className="flex justify-between items-center mb-6">
+          <div className="flex flex-col xl:flex-row xl:justify-between gap-3 xl:gap-0 items-center mb-6">
             <div>
-              <h1 className="text-3xl font-bold text-text-default">Invoices</h1>
+              <h1 className="text-3xl font-bold text-text-default text-center xl:text-left">
+                Invoices
+              </h1>
               <p className="text-light mt-1">
                 Manage invoices and track payments
               </p>
