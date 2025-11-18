@@ -113,7 +113,7 @@ export default function AddAppointmentModal({
             </h2>
             <button
               onClick={onClose}
-              className="text-text-muted hover:text-text-default text-2xl"
+              className="text-text-muted hover:text-text-default text-2xl cursor-pointer"
             >
               <X />
             </button>

@@ -191,7 +191,9 @@ export default function ClientDetailPage() {
         <div className="bg-white rounded-lg shadow-sm overflow-hidden">
           {/* Header with Actions */}
           <div className="bg-gray-50 px-6 py-4 border-b border-border flex justify-between items-center">
-            <h1 className="text-2xl font-bold text-hover">{client.fullName}</h1>
+            <h1 className="text-xl xl:text-2xl font-bold text-hover">
+              {client.fullName}
+            </h1>
             <div className="flex gap-2">
               {!isEditing ? (
                 <>

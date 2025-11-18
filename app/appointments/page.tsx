@@ -168,7 +168,7 @@ export default function AppointmentsPage() {
       <TopBar />
 
       {/* Main Content */}
-      <main className="xl:flex-1 xl:ml-60 py-6 px-8">
+      <main className="xl:flex-1 xl:ml-64 py-6 px-8">
         <div>
           {/* Page Header */}
           <div className="flex flex-col xl:flex-row xl:justify-between gap-5 xl:gap-0 items-center mb-6">
