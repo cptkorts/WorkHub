@@ -1,3 +1,6 @@
+import { redirect } from "next/navigation";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/authOptions";
 import Cta from "@/components/Cta";
 import Features from "@/components/Features";
 import Footer from "@/components/Footer";
@@ -20,7 +23,14 @@ export const metadata: Metadata = {
   ],
 };
 
-export default function Home() {
+export default async function Home() {
+  // Server-side session check
+  const session = await getServerSession(authOptions);
+
+  if (session) {
+    redirect("/analytics"); // Redirect authenticated users to dashboard
+  }
+
   return (
     <main className="bg-background">
       <Hero />
