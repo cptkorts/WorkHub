@@ -23,20 +23,17 @@ interface TrendsBarChartProps {
 export default function TrendsBarChart({ data }: TrendsBarChartProps) {
   return (
     <div className="xl:hidden">
-      <ResponsiveContainer width="100%" height={350}>
-        <BarChart
-          data={data}
-          margin={{ top: 5, right: 20, left: 10, bottom: 5 }}
-        >
+      <ResponsiveContainer width="100%" height={400}>
+        <BarChart data={data} margin={{ top: 5, right: 0, left: 0, bottom: 5 }}>
           <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
           <XAxis
             dataKey="month"
             tick={{ fontSize: 10 }}
             angle={-45}
             textAnchor="end"
-            height={70}
+            height={60}
           />
-          <YAxis yAxisId="left" tick={{ fontSize: 10 }} width={45} />
+          <YAxis yAxisId="left" tick={{ fontSize: 10 }} width={40} />
           <YAxis
             yAxisId="right"
             orientation="right"
@@ -57,7 +54,10 @@ export default function TrendsBarChart({ data }: TrendsBarChartProps) {
               return [value, name];
             }}
           />
-          <Legend wrapperStyle={{ fontSize: "11px" }} iconSize={10} />
+          <Legend
+            wrapperStyle={{ fontSize: "11px", paddingTop: "5px" }}
+            iconSize={10}
+          />
           <Bar
             yAxisId="left"
             dataKey="revenue"
