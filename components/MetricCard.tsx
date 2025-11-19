@@ -19,7 +19,7 @@ export default function MetricCard({
 }: MetricCardProps) {
   return (
     <div
-      className={`group bg-white rounded-lg shadow-xs hover:shadow-sm transition-all duration-200 p-3 lg:p-6 border-l-4 ${borderColor}`}
+      className={`group bg-white rounded-lg shadow-xs hover:shadow-sm transition-all duration-200 p-4 lg:p-6 border-l-4 ${borderColor}`}
     >
       <div className="flex items-center justify-between">
         <div>

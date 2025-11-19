@@ -69,7 +69,7 @@ export default function AppointmentsPage() {
           {/* Page Header */}
           <div className="flex flex-col xl:flex-row xl:justify-between gap-5 xl:gap-0 items-center mb-6">
             <div>
-              <h1 className="text-3xl font-bold text-default text-center xl:text-left">
+              <h1 className="text-3xl font-bold text-text-default text-center xl:text-left">
                 Appointments
               </h1>
               <p className="text-light mt-1">
