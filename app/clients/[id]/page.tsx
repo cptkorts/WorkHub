@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter, useParams } from "next/navigation";
 import Link from "next/link";
@@ -8,19 +8,11 @@ import Navbar from "@/components/Navbar";
 import NavBarBottom from "@/components/NavBarBottom";
 import TopBar from "@/components/TopBar";
 import LoadingSpinner from "@/components/LoadingSpinner";
-import { MoveLeft, Settings } from "lucide-react";
-
-interface Client {
-  _id: string;
-  fullName: string;
-  businessName?: string;
-  email: string;
-  phone?: string;
-  address?: string;
-  notes?: string;
-  createdAt: string;
-  updatedAt: string;
-}
+import ClientDetailHeader from "@/components/ClientDetailHeader";
+import ClientDetailView from "@/components/ClientDetailView";
+import ClientEditForm from "@/components/ClientEditForm";
+import { useClientDetail } from "@/hooks/useClientDetail";
+import { MoveLeft } from "lucide-react";
 
 export default function ClientDetailPage() {
   const { data: session, status } = useSession();
@@ -28,116 +20,26 @@ export default function ClientDetailPage() {
   const params = useParams();
   const clientId = params.id as string;
 
-  const [client, setClient] = useState<Client | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [isEditing, setIsEditing] = useState(false);
-  const [saving, setSaving] = useState(false);
-  const [deleting, setDeleting] = useState(false);
-  const [error, setError] = useState("");
-
-  const [formData, setFormData] = useState({
-    fullName: "",
-    businessName: "",
-    email: "",
-    phone: "",
-    address: "",
-    notes: "",
-  });
+  const {
+    client,
+    loading,
+    isEditing,
+    saving,
+    deleting,
+    error,
+    formData,
+    setFormData,
+    setIsEditing,
+    handleUpdate,
+    handleDelete,
+    handleCancel,
+  } = useClientDetail(clientId, session);
 
   useEffect(() => {
     if (status === "unauthenticated") {
       router.push("/login");
     }
   }, [status, router]);
-
-  const fetchClient = async () => {
-    try {
-      const response = await fetch(`/api/clients/${clientId}`);
-      if (response.ok) {
-        const data = await response.json();
-        setClient(data);
-        setFormData({
-          fullName: data.fullName,
-          businessName: data.businessName || "",
-          email: data.email,
-          phone: data.phone || "",
-          address: data.address || "",
-          notes: data.notes || "",
-        });
-      } else if (response.status === 404) {
-        setError("Client not found");
-      }
-    } catch (error) {
-      console.error("Error fetching client:", error);
-      setError("Failed to load client");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    if (session && clientId) {
-      fetchClient();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [session, clientId]);
-
-  const handleUpdate = async () => {
-    setError("");
-    setSaving(true);
-
-    try {
-      const response = await fetch(`/api/clients/${clientId}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-
-      if (response.ok) {
-        const updatedClient = await response.json();
-        setClient(updatedClient);
-        setIsEditing(false);
-      } else {
-        const data = await response.json();
-        setError(data.error || "Failed to update client");
-      }
-    } catch {
-      setError("An error occurred while updating");
-    } finally {
-      setSaving(false);
-    }
-  };
-
-  const handleDelete = async () => {
-    if (
-      !confirm(
-        `Are you sure you want to delete ${client?.fullName}? This action cannot be undone.`
-      )
-    ) {
-      return;
-    }
-
-    setDeleting(true);
-
-    try {
-      const response = await fetch(`/api/clients/${clientId}`, {
-        method: "DELETE",
-      });
-
-      if (response.ok) {
-        router.push("/clients");
-      } else {
-        const data = await response.json();
-        setError(data.error || "Failed to delete client");
-      }
-    } catch {
-      setError("An error occurred while deleting");
-    } finally {
-      setDeleting(false);
-    }
-  };
 
   if (status === "loading" || loading) {
     return <LoadingSpinner />;
@@ -189,239 +91,23 @@ export default function ClientDetailPage() {
 
         {/* Client Card */}
         <div className="bg-white rounded-lg shadow-sm overflow-hidden">
-          {/* Header with Actions */}
-          <div className="bg-gray-50 px-6 py-4 border-b border-border flex justify-between items-center">
-            <h1 className="text-xl xl:text-2xl font-bold text-hover">
-              {client.fullName}
-            </h1>
-            <div className="flex gap-2">
-              {!isEditing ? (
-                <>
-                  <button
-                    onClick={() => setIsEditing(true)}
-                    className="flex gap-1 items-center group px-4 py-2 bg-success text-white rounded-md hover:bg-success/80 transition-colors duration-200 cursor-pointer"
-                  >
-                    <Settings
-                      size={20}
-                      className="group-hover:rotate-45 transition-all duration-200 ease-out"
-                    />
-                    Edit
-                  </button>
-                  <button
-                    onClick={handleDelete}
-                    disabled={deleting}
-                    className="px-4 py-2 bg-error text-white rounded-md hover:bg-error/80 transition-colors duration-200 disabled:opacity-50 cursor-pointer"
-                  >
-                    {deleting ? "Deleting..." : "Delete"}
-                  </button>
-                </>
-              ) : (
-                <>
-                  <button
-                    onClick={() => {
-                      setIsEditing(false);
-                      setFormData({
-                        fullName: client.fullName,
-                        businessName: client.businessName || "",
-                        email: client.email,
-                        phone: client.phone || "",
-                        address: client.address || "",
-                        notes: client.notes || "",
-                      });
-                    }}
-                    className="px-4 py-2 border border-border rounded-md text-default hover:bg-muted transition-colors duration-200 cursor-pointer"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    onClick={handleUpdate}
-                    disabled={saving}
-                    className="px-4 py-2 bg-success text-white rounded-md hover:bg-success/80 transition-colors duration-200 disabled:opacity-50 cursor-pointer"
-                  >
-                    {saving ? "Saving..." : "Save Changes"}
-                  </button>
-                </>
-              )}
-            </div>
-          </div>
+          <ClientDetailHeader
+            clientName={client.fullName}
+            isEditing={isEditing}
+            saving={saving}
+            deleting={deleting}
+            onEdit={() => setIsEditing(true)}
+            onDelete={handleDelete}
+            onCancel={handleCancel}
+            onSave={handleUpdate}
+          />
 
           {/* Client Details */}
           <div className="p-6">
             {!isEditing ? (
-              <div className="space-y-6">
-                <div>
-                  <label className="text-sm font-medium text-light">
-                    Full Name
-                  </label>
-                  <p className="mt-1 text-lg text-dark-2">{client.fullName}</p>
-                </div>
-
-                {client.businessName && (
-                  <div>
-                    <label className="text-sm font-medium text-light">
-                      Business Name
-                    </label>
-                    <p className="mt-1 text-lg text-dark-2">
-                      {client.businessName}
-                    </p>
-                  </div>
-                )}
-
-                <div>
-                  <label className="text-sm font-medium text-light">
-                    Email
-                  </label>
-                  <p className="mt-1 text-lg text-dark-2">
-                    <a
-                      href={`mailto:${client.email}`}
-                      className="text-hover hover:text-default/80 transition-colors duration-200"
-                    >
-                      {client.email}
-                    </a>
-                  </p>
-                </div>
-
-                {client.phone && (
-                  <div>
-                    <label className="text-sm font-medium text-light">
-                      Phone
-                    </label>
-                    <p className="mt-1 text-lg text-dark-2">
-                      <a
-                        href={`tel:${client.phone}`}
-                        className="text-hover hover:text-default/80 transition-colors duration-200"
-                      >
-                        {client.phone}
-                      </a>
-                    </p>
-                  </div>
-                )}
-
-                {client.address && (
-                  <div>
-                    <label className="text-sm font-medium text-light">
-                      Address
-                    </label>
-                    <p className="mt-1 text-lg text-dark-2">{client.address}</p>
-                  </div>
-                )}
-
-                {client.notes && (
-                  <div>
-                    <label className="text-sm font-medium text-light">
-                      Notes
-                    </label>
-                    <p className="mt-1 text-dark-2 whitespace-pre-wrap">
-                      {client.notes}
-                    </p>
-                  </div>
-                )}
-
-                <div className="border-t pt-6 mt-6">
-                  <div className="grid grid-cols-2 gap-4 text-sm">
-                    <div>
-                      <label className="text-light">Created</label>
-                      <p className="mt-1 text-text-default">
-                        {new Date(client.createdAt).toLocaleString()}
-                      </p>
-                    </div>
-                    <div>
-                      <label className="text-light">Last Updated</label>
-                      <p className="mt-1 text-text-default">
-                        {new Date(client.updatedAt).toLocaleString()}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <ClientDetailView client={client} />
             ) : (
-              <form className="space-y-4 mb-5 xl:mb-0">
-                <div>
-                  <label className="block font-medium text-default mb-1">
-                    Full Name
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    value={formData.fullName}
-                    onChange={(e) =>
-                      setFormData({ ...formData, fullName: e.target.value })
-                    }
-                    className="w-full px-3 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-muted"
-                  />
-                </div>
-
-                <div>
-                  <label className="block font-medium text-default mb-1">
-                    Business Name
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.businessName}
-                    onChange={(e) =>
-                      setFormData({ ...formData, businessName: e.target.value })
-                    }
-                    className="w-full px-3 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-muted"
-                  />
-                </div>
-
-                <div>
-                  <label className="block font-medium text-default mb-1">
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    required
-                    value={formData.email}
-                    onChange={(e) =>
-                      setFormData({ ...formData, email: e.target.value })
-                    }
-                    className="w-full px-3 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-muted"
-                  />
-                </div>
-
-                <div>
-                  <label className="block font-medium text-default mb-1">
-                    Phone
-                  </label>
-                  <input
-                    type="tel"
-                    value={formData.phone}
-                    onChange={(e) =>
-                      setFormData({ ...formData, phone: e.target.value })
-                    }
-                    className="w-full px-3 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-muted"
-                  />
-                </div>
-
-                <div>
-                  <label className="block font-medium text-default mb-1">
-                    Address
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.address}
-                    onChange={(e) =>
-                      setFormData({ ...formData, address: e.target.value })
-                    }
-                    className="w-full px-3 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-muted"
-                  />
-                </div>
-
-                <div>
-                  <label className="block font-medium text-default mb-1">
-                    Notes
-                  </label>
-                  <textarea
-                    value={formData.notes}
-                    onChange={(e) =>
-                      setFormData({ ...formData, notes: e.target.value })
-                    }
-                    rows={4}
-                    className="w-full px-3 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-muted"
-                  />
-                </div>
-              </form>
+              <ClientEditForm formData={formData} onFormChange={setFormData} />
             )}
           </div>
         </div>

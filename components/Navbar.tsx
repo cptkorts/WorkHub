@@ -72,7 +72,7 @@ export default function Navbar() {
       {/* User Section */}
       <div className="border-t border-gray-200 p-4 space-y-3 flex flex-col">
         <Link
-          href="/dashboard"
+          href="/profile"
           className="group flex items-center gap-3 px-4 py-3 rounded-lg text-accent/80 hover:text-accent hover:bg-accent/10 font-semibold transition-all duration-200 w-full"
         >
           <User

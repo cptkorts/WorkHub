@@ -29,7 +29,7 @@ export default function TopBar() {
 
         {/* Profile Button - Right */}
         <Link
-          href="/dashboard"
+          href="/profile"
           className="group flex items-center justify-center p-2 rounded-lg hover:bg-accent/10 transition-all duration-200"
         >
           <User

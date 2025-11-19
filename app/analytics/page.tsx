@@ -1,85 +1,30 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import NavBarBottom from "@/components/NavBarBottom";
 import TopBar from "@/components/TopBar";
 import LoadingSpinner from "@/components/LoadingSpinner";
-import {
-  LineChart,
-  Line,
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  Legend,
-} from "recharts";
+import MetricCard from "@/components/MetricCard";
+import TrendsLineChart from "@/components/TrendsLineChart";
+import TrendsBarChart from "@/components/TrendsBarChart";
+import InvoiceStatus from "@/components/InvoiceStatus";
+import AppointmentStatus from "@/components/AppointmentStatus";
+import { useAnalytics } from "@/hooks/useAnalytics";
 import { ClipboardClock, HandCoins, PiggyBank, UserCheck } from "lucide-react";
-
-interface MonthlyData {
-  month: string;
-  revenue: number;
-  clients: number;
-  appointments: number;
-}
-
-interface AnalyticsData {
-  totalClients: number;
-  monthlyRevenue: number;
-  upcomingAppointments: number;
-  totalRevenue: number;
-  monthlyData: MonthlyData[];
-  invoices: {
-    paid: { count: number; total: number };
-    unpaid: { count: number; total: number };
-  };
-  appointments: {
-    upcoming: number;
-    completed: number;
-    canceled: number;
-  };
-}
 
 export default function AnalyticsPage() {
   const { data: session, status } = useSession();
   const router = useRouter();
-  const [analytics, setAnalytics] = useState<AnalyticsData | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const { analytics, loading, error } = useAnalytics(session);
 
   useEffect(() => {
     if (status === "unauthenticated") {
       router.push("/login");
     }
   }, [status, router]);
-
-  useEffect(() => {
-    if (session) {
-      fetchAnalytics();
-    }
-  }, [session]);
-
-  const fetchAnalytics = async () => {
-    try {
-      const response = await fetch("/api/analytics");
-      if (response.ok) {
-        const data = await response.json();
-        setAnalytics(data);
-      } else {
-        setError("Failed to load analytics");
-      }
-    } catch (error) {
-      console.error("Error fetching analytics:", error);
-      setError("Failed to load analytics");
-    } finally {
-      setLoading(false);
-    }
-  };
 
   if (status === "loading" || loading) {
     return <LoadingSpinner />;
@@ -117,84 +62,38 @@ export default function AnalyticsPage() {
 
           {/* Key Metrics */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            {/* Total Clients */}
-            <div className="group bg-white rounded-lg shadow-xs hover:shadow-sm transition-all duration-200 p-6 border-l-4 border-accent/80">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-text-muted mb-1">
-                    Total Clients
-                  </p>
-                  <p className="text-3xl font-bold text-accent">
-                    {analytics.totalClients}
-                  </p>
-                </div>
-                <div className="text-4xl text-accent">
-                  <UserCheck
-                    size={35}
-                    className="group-hover:scale-110 transition-all duration-200"
-                  />
-                </div>
-              </div>
-            </div>
-            {/* This Month's Revenue */}
-            <div className="group bg-white rounded-lg shadow-xs hover:shadow-sm transition-all duration-200 p-6 border-l-4 border-success">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-text-muted mb-1">
-                    {currentMonth} Revenue
-                  </p>
-                  <p className="text-3xl font-bold text-default">
-                    ${analytics.monthlyRevenue.toFixed(2)}
-                  </p>
-                </div>
-                <div className="text-4xl text-default">
-                  <HandCoins
-                    size={35}
-                    className="group-hover:scale-110 transition-all duration-200"
-                  />
-                </div>
-              </div>
-            </div>
-
-            {/* Upcoming Appointments */}
-            <div className="group bg-white rounded-lg shadow-xs hover:shadow-sm transition-all duration-200 p-6 border-l-4 border-blue-500/80">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-text-muted mb-1">
-                    Upcoming Appointments
-                  </p>
-                  <p className="text-3xl font-bold text-blue-600">
-                    {analytics.upcomingAppointments}
-                  </p>
-                </div>
-                <div className="text-4xl text-blue-600">
-                  <ClipboardClock
-                    size={35}
-                    className="group-hover:scale-110 transition-all duration-200"
-                  />
-                </div>
-              </div>
-            </div>
-
-            {/* Total Revenue */}
-            <div className="group bg-white rounded-lg shadow-xs hover:shadow-sm transition-all duration-200 p-6 border-l-4 border-money">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-text-muted mb-1">
-                    Total Revenue
-                  </p>
-                  <p className="text-3xl font-bold text-money">
-                    ${analytics.totalRevenue.toFixed(2)}
-                  </p>
-                </div>
-                <div className="text-4xl text-money">
-                  <PiggyBank
-                    size={35}
-                    className="group-hover:scale-110 transition-all duration-200"
-                  />
-                </div>
-              </div>
-            </div>
+            <MetricCard
+              title="Total Clients"
+              value={analytics.totalClients}
+              icon={UserCheck}
+              iconColor="text-accent"
+              borderColor="border-accent/80"
+              valueColor="text-accent"
+            />
+            <MetricCard
+              title={`${currentMonth} Revenue`}
+              value={`$${analytics.monthlyRevenue.toFixed(2)}`}
+              icon={HandCoins}
+              iconColor="text-default"
+              borderColor="border-success"
+              valueColor="text-default"
+            />
+            <MetricCard
+              title="Upcoming Appointments"
+              value={analytics.upcomingAppointments}
+              icon={ClipboardClock}
+              iconColor="text-blue-600"
+              borderColor="border-blue-500/80"
+              valueColor="text-blue-600"
+            />
+            <MetricCard
+              title="Total Revenue"
+              value={`$${analytics.totalRevenue.toFixed(2)}`}
+              icon={PiggyBank}
+              iconColor="text-money"
+              borderColor="border-money"
+              valueColor="text-money"
+            />
           </div>
 
           {/* Monthly Trends Chart */}
@@ -202,211 +101,21 @@ export default function AnalyticsPage() {
             <h2 className="text-lg xl:text-xl font-bold text-gray-900 mb-4 xl:mb-6">
               Six-Month Trends
             </h2>
-
-            {/* Mobile Bar Chart */}
-            <div className="xl:hidden">
-              <ResponsiveContainer width="100%" height={350}>
-                <BarChart
-                  data={analytics.monthlyData}
-                  margin={{ top: 5, right: 20, left: 10, bottom: 5 }}
-                >
-                  <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-                  <XAxis
-                    dataKey="month"
-                    tick={{ fontSize: 10 }}
-                    angle={-45}
-                    textAnchor="end"
-                    height={70}
-                  />
-                  <YAxis yAxisId="left" tick={{ fontSize: 10 }} width={45} />
-                  <YAxis
-                    yAxisId="right"
-                    orientation="right"
-                    tick={{ fontSize: 10 }}
-                    width={40}
-                  />
-                  <Tooltip
-                    contentStyle={{
-                      backgroundColor: "#fff",
-                      border: "1px solid #e5e7eb",
-                      borderRadius: "8px",
-                      fontSize: "11px",
-                    }}
-                    formatter={(value: number, name: string) => {
-                      if (name === "Revenue") {
-                        return [`$${value.toFixed(2)}`, name];
-                      }
-                      return [value, name];
-                    }}
-                  />
-                  <Legend wrapperStyle={{ fontSize: "11px" }} iconSize={10} />
-                  <Bar
-                    yAxisId="left"
-                    dataKey="revenue"
-                    fill="#a8c686"
-                    name="Revenue"
-                    radius={[4, 4, 0, 0]}
-                  />
-                  <Bar
-                    yAxisId="right"
-                    dataKey="clients"
-                    fill="#cdaa5f"
-                    name="Clients"
-                    radius={[4, 4, 0, 0]}
-                  />
-                  <Bar
-                    yAxisId="right"
-                    dataKey="appointments"
-                    fill="#3b82f6"
-                    name="Appointments"
-                    radius={[4, 4, 0, 0]}
-                  />
-                </BarChart>
-              </ResponsiveContainer>
-            </div>
-
-            {/* Desktop Line Chart */}
-            <div className="hidden xl:block ">
-              <ResponsiveContainer width="100%" height={400}>
-                <LineChart
-                  data={analytics.monthlyData}
-                  margin={{ top: 5, right: 30, left: 0, bottom: 5 }}
-                >
-                  <CartesianGrid stroke="#eee" strokeDasharray="5 5" />
-                  <XAxis dataKey="month" tick={{ fontSize: 12 }} />
-                  <YAxis yAxisId="left" tick={{ fontSize: 12 }} />
-                  <YAxis
-                    yAxisId="right"
-                    orientation="right"
-                    tick={{ fontSize: 12 }}
-                  />
-                  <Tooltip
-                    contentStyle={{
-                      backgroundColor: "#fff",
-                      border: "1px solid #e5e7eb",
-                      borderRadius: "8px",
-                    }}
-                    formatter={(value: number, name: string) => {
-                      if (name === "Revenue") {
-                        return [`$${value.toFixed(2)}`, name];
-                      }
-                      return [value, name];
-                    }}
-                  />
-                  <Legend />
-                  <Line
-                    yAxisId="left"
-                    type="monotone"
-                    dataKey="revenue"
-                    stroke="#a8c686"
-                    strokeWidth={2}
-                    name="Revenue"
-                    dot={{ fill: "#a8c686", r: 4 }}
-                    activeDot={{ r: 6 }}
-                  />
-                  <Line
-                    yAxisId="right"
-                    type="monotone"
-                    dataKey="clients"
-                    stroke="#cdaa5f"
-                    strokeWidth={2}
-                    name="Clients"
-                    dot={{ fill: "#cdaa5f", r: 4 }}
-                    activeDot={{ r: 6 }}
-                  />
-                  <Line
-                    yAxisId="right"
-                    type="monotone"
-                    dataKey="appointments"
-                    stroke="#3b82f6"
-                    strokeWidth={2}
-                    name="Appointments"
-                    dot={{ fill: "#3b82f6", r: 4 }}
-                    activeDot={{ r: 6 }}
-                  />
-                </LineChart>
-              </ResponsiveContainer>
-            </div>
+            <TrendsBarChart data={analytics.monthlyData} />
+            <TrendsLineChart data={analytics.monthlyData} />
           </div>
 
           {/* Secondary Stats */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-20 xl:mb-0">
-            {/* Invoice Breakdown */}
-            <div className="bg-white rounded-lg shadow-sm p-6">
-              <h3 className="text-lg font-semibold text-default mb-4">
-                Invoice Status
-              </h3>
-              <div className="space-y-4">
-                <div className="flex items-center justify-between p-4 bg-money/20 rounded-lg">
-                  <div>
-                    <p className="text-sm font-medium text-text-muted">
-                      Paid Invoices
-                    </p>
-                    <p className="text-2xl font-bold text-hover">
-                      {analytics.invoices.paid.count}
-                    </p>
-                  </div>
-                  <div className="text-right">
-                    <p className="text-sm text-text-muted">Total</p>
-                    <p className="text-xl font-semibold text-hover">
-                      ${analytics.invoices.paid.total.toFixed(2)}
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-center justify-between p-4 bg-error/15 rounded-lg">
-                  <div>
-                    <p className="text-sm font-medium text-text-muted">
-                      Unpaid Invoices
-                    </p>
-                    <p className="text-2xl font-bold text-error">
-                      {analytics.invoices.unpaid.count}
-                    </p>
-                  </div>
-                  <div className="text-right">
-                    <p className="text-sm text-text-muted">Outstanding</p>
-                    <p className="text-xl font-semibold text-error">
-                      ${analytics.invoices.unpaid.total.toFixed(2)}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Appointment Breakdown */}
-            <div className="bg-white rounded-lg shadow-sm p-6 ">
-              <h3 className="text-lg font-semibold text-default mb-4">
-                Appointment Status
-              </h3>
-              <div className="space-y-4">
-                <div className="flex items-center justify-between p-4 bg-blue-50 rounded-lg">
-                  <p className="text-sm font-medium text-text-muted">
-                    Upcoming
-                  </p>
-                  <p className="text-2xl font-bold text-blue-600">
-                    {analytics.appointments.upcoming}
-                  </p>
-                </div>
-
-                <div className="flex items-center justify-between p-4 bg-money/20 rounded-lg">
-                  <p className="text-sm font-medium text-text-muted ">
-                    Completed
-                  </p>
-                  <p className="text-2xl font-bold text-hover">
-                    {analytics.appointments.completed}
-                  </p>
-                </div>
-
-                <div className="flex items-center justify-between p-4 bg-error/15 rounded-lg">
-                  <p className="text-sm font-medium text-text-muted">
-                    Canceled
-                  </p>
-                  <p className="text-2xl font-bold text-error">
-                    {analytics.appointments.canceled}
-                  </p>
-                </div>
-              </div>
-            </div>
+            <InvoiceStatus
+              paid={analytics.invoices.paid}
+              unpaid={analytics.invoices.unpaid}
+            />
+            <AppointmentStatus
+              upcoming={analytics.appointments.upcoming}
+              completed={analytics.appointments.completed}
+              canceled={analytics.appointments.canceled}
+            />
           </div>
         </div>
       </main>
