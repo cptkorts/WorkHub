@@ -28,7 +28,7 @@ export default function InvoicesGrid({
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-20 xl:mb-0">
       {invoices.map((invoice) => (
         <InvoiceCard
           key={invoice._id}
