@@ -1,3 +1,5 @@
+import { UserPlus } from "lucide-react";
+
 interface ClientsEmptyStateProps {
   hasSearchTerm: boolean;
   searchTerm: string;
@@ -26,8 +28,10 @@ export default function ClientsEmptyState({
           </button>
         </>
       ) : (
-        <>
-          <div className="text-6xl mb-4">📇</div>
+        <div className="flex flex-col items-center py-12">
+          <div className="text-6xl mb-4 text-default">
+            <UserPlus size={80} />
+          </div>
           <h3 className="text-xl font-semibold text-dark-3 mb-2">
             No clients yet
           </h3>
@@ -36,11 +40,11 @@ export default function ClientsEmptyState({
           </p>
           <button
             onClick={onAddClient}
-            className="bg-accent text-white px-6 py-3 rounded-lg hover:bg-accent/90 transition-colors"
+            className="bg-accent text-white px-6 py-3 rounded-lg hover:bg-accent/90 transition-colors cursor-pointer"
           >
             Add Your First Client
           </button>
-        </>
+        </div>
       )}
     </div>
   );
