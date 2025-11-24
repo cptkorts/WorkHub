@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { Lato } from "next/font/google";
+import { Noto_Sans } from "next/font/google";
 import { molgan } from "@/lib/fonts";
 import Providers from "@/components/Providers";
 
-const lato = Lato({
+const notoSans = Noto_Sans({
   subsets: ["latin"],
   weight: ["300", "400", "700", "900"],
-  variable: "--font-lato",
+  variable: "--font-noto-sans",
 });
 
 export const metadata: Metadata = {
@@ -31,7 +31,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${lato.variable} ${molgan.variable} font-lato antialiased`}
+        className={`${notoSans.variable} ${molgan.variable} font-noto-sans antialiased`}
       >
         <Providers>{children}</Providers>
       </body>
