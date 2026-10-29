@@ -93,3 +93,8 @@ The source code is released under the [MIT License](LICENSE). Third-party assets
 
 - Illustration "Financial data" by [Storyset](https://storyset.com/) (Freepik). Attribution is required under the Storyset license.
 - Font "Molgan" by Brandsemut. Check the font's license before reusing or redistributing it.
+
+## !USER FOR TESTING! 
+email: test@test.com
+password: test1234
+
