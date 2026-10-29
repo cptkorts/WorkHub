@@ -41,9 +41,6 @@ export const authOptions: AuthOptions = {
             email: credentials.email.toLowerCase(),
           });
 
-          console.log("Login attempt for:", credentials.email);
-          console.log("User found:", user ? "Yes" : "No");
-
           if (!user) {
             throw new Error("No user found with this email");
           }
@@ -56,19 +53,10 @@ export const authOptions: AuthOptions = {
           }
 
           // Verify password
-          console.log("Stored password hash:", user.password);
-          console.log("Provided password:", credentials.password);
-          console.log(
-            "Hash starts with $2a or $2b?",
-            user.password?.startsWith("$2")
-          );
-
           const isPasswordValid = await bcrypt.compare(
             credentials.password,
             user.password
           );
-
-          console.log("Password valid:", isPasswordValid);
 
           if (!isPasswordValid) {
             throw new Error("Invalid password");

@@ -3,6 +3,8 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/authOptions";
 import { connectDB } from "@/lib/mongodb";
 import Appointment from "@/lib/models/Appointment";
+import Client from "@/lib/models/Client";
+import { isValidObjectId } from "mongoose";
 
 // GET /api/appointments/:id - Get a specific appointment
 export async function GET(
@@ -70,6 +72,14 @@ export async function PUT(
         { error: "Client, date, time, service, and price are required" },
         { status: 400 }
       );
+    }
+
+    // The client must belong to the logged-in user
+    if (
+      !isValidObjectId(body.clientId) ||
+      !(await Client.exists({ _id: body.clientId, userId: session.user.id }))
+    ) {
+      return NextResponse.json({ error: "Client not found" }, { status: 400 });
     }
 
     const appointment = await Appointment.findOneAndUpdate(

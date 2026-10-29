@@ -1,4 +1,4 @@
-import { Facebook, Github, Instagram, Linkedin } from "lucide-react";
+import { Facebook, Github, Linkedin } from "lucide-react";
 
 export default function Footer() {
   return (
@@ -13,19 +13,23 @@ export default function Footer() {
             </div>
             <div className="flex flex-col items-center space-y-4 font-semibold text-white md:flex-row md:space-y-0 md:space-x-6">
               <div className="h-10 group">
-                <a href="#">About</a>
+                <a
+                  href="https://github.com/cptkorts/WorkHub"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Source
+                </a>
                 <div className="mx-2 group-hover:border-b group-hover:border-default"></div>
               </div>
               <div className="h-10 group">
-                <a href="#">Careers</a>
-                <div className="mx-2 group-hover:border-b group-hover:border-default"></div>
-              </div>
-              <div className="h-10 group">
-                <a href="#">Events</a>
-                <div className="mx-2 group-hover:border-b group-hover:border-default"></div>
-              </div>
-              <div className="h-10 group">
-                <a href="#">Products</a>
+                <a
+                  href="https://github.com/cptkorts/WorkHub/blob/main/LICENSE"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  License
+                </a>
                 <div className="mx-2 group-hover:border-b group-hover:border-default"></div>
               </div>
               <div className="h-10 group">
@@ -34,7 +38,7 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  Copyright
+                  Contact
                 </a>
                 <div className="mx-2 group-hover:border-b group-hover:border-default"></div>
               </div>
@@ -61,14 +65,6 @@ export default function Footer() {
                   className="flex items-center justify-center p-2 rounded-lg hover:bg-default transition-all duration-200"
                 >
                   <Linkedin className="h-6 w-6 text-hover group-hover:text-white" />
-                </a>
-              </div>
-              <div className="h-8 group">
-                <a
-                  href="#"
-                  className="flex items-center justify-center p-2 rounded-lg hover:bg-default transition-all duration-200"
-                >
-                  <Instagram className="h-6 w-6 text-hover group-hover:text-white" />
                 </a>
               </div>
               <div className="h-8 group">

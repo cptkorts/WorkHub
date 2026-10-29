@@ -3,6 +3,9 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/authOptions";
 import { connectDB } from "@/lib/mongodb";
 import Invoice from "@/lib/models/Invoice";
+import Client from "@/lib/models/Client";
+import { isValidObjectId } from "mongoose";
+import { normalizeInvoiceAmounts } from "@/lib/invoiceTotals";
 
 // GET all invoices for the logged-in user
 export async function GET(req: NextRequest) {
@@ -47,31 +50,34 @@ export async function POST(req: NextRequest) {
     await connectDB();
 
     const body = await req.json();
-    const {
-      clientId,
-      invoiceNumber,
-      items,
-      subtotal,
-      tax,
-      total,
-      status,
-      dueDate,
-      notes,
-    } = body;
+    const { clientId, invoiceNumber, items, tax, status, dueDate, notes } =
+      body;
 
     // Validate required fields
-    if (
-      !clientId ||
-      !invoiceNumber ||
-      !items ||
-      items.length === 0 ||
-      subtotal === undefined ||
-      tax === undefined ||
-      total === undefined ||
-      !dueDate
-    ) {
+    if (!clientId || !invoiceNumber || !items || !dueDate) {
       return NextResponse.json(
         { error: "Missing required fields" },
+        { status: 400 }
+      );
+    }
+
+    if (status !== undefined && status !== "paid" && status !== "unpaid") {
+      return NextResponse.json({ error: "Invalid status" }, { status: 400 });
+    }
+
+    // The client must belong to the logged-in user
+    if (
+      !isValidObjectId(clientId) ||
+      !(await Client.exists({ _id: clientId, userId: session.user.id }))
+    ) {
+      return NextResponse.json({ error: "Client not found" }, { status: 400 });
+    }
+
+    // Never trust client-supplied amounts
+    const amounts = normalizeInvoiceAmounts(items, tax);
+    if (!amounts) {
+      return NextResponse.json(
+        { error: "Invalid invoice items or tax" },
         { status: 400 }
       );
     }
@@ -81,10 +87,7 @@ export async function POST(req: NextRequest) {
       userId: session.user.id,
       clientId,
       invoiceNumber,
-      items,
-      subtotal,
-      tax,
-      total,
+      ...amounts,
       status: status || "unpaid",
       dueDate: new Date(dueDate),
       notes,

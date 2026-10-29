@@ -1,36 +1,95 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# WorkHub
+
+A client, appointment and invoice management app for freelancers and small businesses. It keeps your clients, schedule, billing and revenue stats in one dashboard.
+
+![WorkHub screenshot](public/images/workhub-screenshot.webp)
+
+## Features
+
+- **Authentication**: email/password sign-up (bcrypt-hashed) and Google OAuth, with JWT sessions via NextAuth.
+- **Clients**: add, edit and delete clients, view a client detail page with per-client stats.
+- **Appointments**: calendar view and list view, with upcoming, completed and canceled statuses.
+- **Invoices**: create invoices with line items and tax, mark them paid or unpaid, filter by status, and export them as PDF.
+- **Analytics**: monthly revenue, client totals and trend charts (bar and line).
+- **Profile**: manage personal and business information.
+- **Protected routes**: middleware and per-user data scoping, so users only see their own data.
+- **Landing page** with hero, features, showcase and testimonials sections.
+
+## Tech Stack
+
+| Area              | Technology                                                                   |
+| ----------------- | ---------------------------------------------------------------------------- |
+| Framework         | [Next.js 16](https://nextjs.org/) (App Router), React 19, TypeScript         |
+| Styling           | Tailwind CSS 4                                                               |
+| Database          | MongoDB with [Mongoose](https://mongoosejs.com/)                             |
+| Auth              | [NextAuth.js](https://next-auth.js.org/) v4 (Credentials + Google), bcryptjs |
+| Charts / Calendar | Recharts, react-calendar                                                     |
+| PDF               | jsPDF                                                                        |
+| Icons             | lucide-react                                                                 |
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js 20.9 or newer
+- A MongoDB database (a free [MongoDB Atlas](https://www.mongodb.com/atlas) cluster works)
+- _(Optional)_ A Google OAuth client for "Sign in with Google"
+
+### Installation
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/cptkorts/WorkHub.git
+cd WorkHub
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Environment variables
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Copy the example file and fill in your values:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+cp .env.example .env.local # Windows (PowerShell): Copy-Item .env.example .env.local
+```
 
-## Learn More
+| Variable               | Description                                                |
+| ---------------------- | ---------------------------------------------------------- |
+| `MONGODB_URI`          | MongoDB connection string                                  |
+| `NEXTAUTH_URL`         | App URL, e.g. `http://localhost:3000`                      |
+| `NEXTAUTH_SECRET`      | Random secret. Generate one with `openssl rand -base64 32` |
+| `GOOGLE_CLIENT_ID`     | Google OAuth client ID (optional)                          |
+| `GOOGLE_CLIENT_SECRET` | Google OAuth client secret (optional)                      |
 
-To learn more about Next.js, take a look at the following resources:
+To set up Google sign-in, create an OAuth client in the [Google Cloud Console](https://console.cloud.google.com/apis/credentials). Add `http://localhost:3000/api/auth/callback/google` as an authorized redirect URI.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Run
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+npm run dev       # development server at http://localhost:3000
+npm run build     # production build
+npm start         # run the production build
+npm run lint      # lint the code
+```
 
-## Deploy on Vercel
+## Project Structure
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```
+app/          Pages and API routes (clients, appointments, invoices, analytics, user/profile, auth)
+components/   UI components
+hooks/        Data-fetching and form hooks
+lib/          Auth config, MongoDB connection, Mongoose models
+utils/        PDF invoice generation
+middleware.ts Route protection
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Deployment
+
+The easiest option is [Vercel](https://vercel.com/). Add the environment variables above, set `NEXTAUTH_URL` to your production URL, and add the production Google OAuth redirect URI.
+
+## License
+
+The source code is released under the [MIT License](LICENSE). Third-party assets listed below keep their own licenses.
+
+## Credits
+
+- Illustration "Financial data" by [Storyset](https://storyset.com/) (Freepik). Attribution is required under the Storyset license.
+- Font "Molgan" by Brandsemut. Check the font's license before reusing or redistributing it.

@@ -28,8 +28,8 @@ export default function Features() {
               <Calendar1 className="w-8 h-8 text-default group-hover:text-white" />
             ),
             title: "Never miss a booking again.",
-            desc: "Schedule sessions, send reminders, and manage your calendar effortlessly from any device.",
-            bullets: ["Daily/weekly view", "Auto reminders"],
+            desc: "Schedule sessions and manage your calendar effortlessly from any device.",
+            bullets: ["Daily/weekly view", "Upcoming, completed & canceled"],
           },
           {
             icon: (

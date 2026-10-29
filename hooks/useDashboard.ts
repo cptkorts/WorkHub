@@ -45,7 +45,6 @@ export const useDashboard = (session: Session | null) => {
       const response = await fetch("/api/user/profile");
       if (response.ok) {
         const data = await response.json();
-        console.log("Fetched user data:", data); // Debug log
         setPersonalInfo({
           fullName: data.user.name || "",
           email: data.user.email || "",

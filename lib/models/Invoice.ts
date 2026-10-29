@@ -63,7 +63,6 @@ const InvoiceSchema = new mongoose.Schema(
     invoiceNumber: {
       type: String,
       required: true,
-      unique: true,
     },
     items: {
       type: [InvoiceItemSchema],
@@ -112,6 +111,9 @@ const InvoiceSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
+
+// Invoice numbers are unique per user, not globally
+InvoiceSchema.index({ userId: 1, invoiceNumber: 1 }, { unique: true });
 
 // Compound indexes for efficient queries
 InvoiceSchema.index({ userId: 1, status: 1 });

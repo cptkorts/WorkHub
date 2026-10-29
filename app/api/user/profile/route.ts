@@ -17,8 +17,6 @@ export async function PUT(request: Request) {
     const body = await request.json();
     const { fullName, phone, businessName, address, website } = body;
 
-    console.log("PUT request body:", body); // Debug log
-
     // Prepare update data - only include defined fields
     const updateData: Record<string, string | undefined> = {
       name: fullName,
@@ -28,8 +26,6 @@ export async function PUT(request: Request) {
     if (businessName !== undefined) updateData.businessName = businessName;
     if (address !== undefined) updateData.address = address;
     if (website !== undefined) updateData.website = website;
-
-    console.log("Update data:", updateData); // Debug log
 
     // Find and update the user
     const updatedUser = await User.findByIdAndUpdate(
@@ -66,7 +62,6 @@ export async function PUT(request: Request) {
 export async function GET() {
   try {
     const session = await getServerSession(authOptions);
-    console.log("Session in GET:", session); // Debug log
 
     if (!session || !session.user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -75,7 +70,6 @@ export async function GET() {
     await connectDB();
 
     const user = await User.findById(session.user.id).select("-password");
-    console.log("User from DB:", user); // Debug log
 
     if (!user) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
@@ -95,7 +89,6 @@ export async function GET() {
       },
     };
 
-    console.log("Sending response:", response); // Debug log
     return NextResponse.json(response);
   } catch (error) {
     console.error("Error fetching profile:", error);

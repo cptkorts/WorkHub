@@ -3,6 +3,9 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/authOptions";
 import { connectDB } from "@/lib/mongodb";
 import Invoice from "@/lib/models/Invoice";
+import Client from "@/lib/models/Client";
+import { isValidObjectId } from "mongoose";
+import { normalizeInvoiceAmounts } from "@/lib/invoiceTotals";
 
 // GET a single invoice
 export async function GET(
@@ -56,9 +59,7 @@ export async function PUT(
       clientId,
       invoiceNumber,
       items,
-      subtotal,
       tax,
-      total,
       status,
       dueDate,
       paidDate,
@@ -75,13 +76,51 @@ export async function PUT(
       return NextResponse.json({ error: "Invoice not found" }, { status: 404 });
     }
 
+    if (status !== undefined && status !== "paid" && status !== "unpaid") {
+      return NextResponse.json({ error: "Invalid status" }, { status: 400 });
+    }
+
+    // The client must belong to the logged-in user
+    if (clientId !== undefined) {
+      if (
+        !isValidObjectId(clientId) ||
+        !(await Client.exists({ _id: clientId, userId: session.user.id }))
+      ) {
+        return NextResponse.json(
+          { error: "Client not found" },
+          { status: 400 }
+        );
+      }
+    }
+
+    // Never trust client-supplied amounts: recompute whenever they change
+    if (items !== undefined || tax !== undefined) {
+      const amounts = normalizeInvoiceAmounts(
+        items ??
+          invoice.items.map(
+            (i: { description: string; quantity: number; price: number }) => ({
+              description: i.description,
+              quantity: i.quantity,
+              price: i.price,
+            })
+          ),
+        tax ?? invoice.tax
+      );
+      if (!amounts) {
+        return NextResponse.json(
+          { error: "Invalid invoice items or tax" },
+          { status: 400 }
+        );
+      }
+      invoice.items = amounts.items;
+      invoice.subtotal = amounts.subtotal;
+      invoice.tax = amounts.tax;
+      invoice.total = amounts.total;
+    }
+
     // Update fields
     if (clientId !== undefined) invoice.clientId = clientId;
     if (invoiceNumber !== undefined) invoice.invoiceNumber = invoiceNumber;
-    if (items !== undefined) invoice.items = items;
-    if (subtotal !== undefined) invoice.subtotal = subtotal;
-    if (tax !== undefined) invoice.tax = tax;
-    if (total !== undefined) invoice.total = total;
     if (status !== undefined) {
       invoice.status = status;
       // Set paidDate when marked as paid

@@ -16,14 +16,14 @@ const testimonials = [
     role: "Barber",
     quote: "Appointments made simple.",
     testimonial:
-      "The calendar view is a game changer. I see my entire week at a glance, and my clients love getting automatic reminders. It's like having a personal assistant for my shop.",
+      "The calendar view is a game changer. I see my entire week at a glance and can keep every booking organized. It's like having a personal assistant for my shop.",
   },
   {
     name: "Ava R.",
     role: "Freelance Designer",
     quote: "It's my whole business in a dashboard.",
     testimonial:
-      "Invoices, clients, analytics — everything just works together. I can finally focus on design instead of paperwork. I'd recommend WorkHub to any freelancer. Higly recommended!",
+      "Invoices, clients, analytics — everything just works together. I can finally focus on design instead of paperwork. I'd recommend WorkHub to any freelancer. Highly recommended!",
   },
 ];
 
@@ -48,9 +48,13 @@ export default function Testimonials() {
         <h2 className="text-4xl md:text-5xl font-bold text-text-default mb-4 text-center">
           Trusted by freelancers and creators everywhere.
         </h2>
-        <p className="text-text-muted max-w-2xl mx-auto mb-16 text-center">
+        <p className="text-text-muted max-w-2xl mx-auto mb-4 text-center">
           WorkHub helps small teams, solo professionals, and local businesses
           stay organized and grow, without the overwhelm.
+        </p>
+        <p className="text-text-muted text-sm italic mb-12 text-center">
+          Sample testimonials shown as placeholders. They are not from real
+          customers.
         </p>
 
         {/* Testimonial Card */}
